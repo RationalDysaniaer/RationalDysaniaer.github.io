@@ -169,10 +169,443 @@
 <h2 id="一、简介"><a href="#一、简介" class="headerlink" title="一、简介"></a>一、简介</h2><p>飞机大战小游戏使用的技术包括使用面向对象编程思想创建游戏元素，如敌机、敌方Boos、敌方子弹、我方飞机、子弹、道具等，并通过监听器来实现游戏的交互，以及如何在游戏中处理碰撞、控制游戏流程，以及实现一些基本的游戏逻辑。</p>
 <p>本文将以代码为主，通过代码实现来详细阐述游戏的设计思路和实现过程。我们将会使用Java中的Swing库来实现GUI，并通过游戏元素之间的交互来控制游戏的进行，通过爆炸类的实现了解到如何实现简单的动画效果，如何在屏幕上绘制图像和文本等一些基本的Java游戏编程技巧。</p>
 <h2 id="二、思维导图类的关系图"><a href="#二、思维导图类的关系图" class="headerlink" title="二、思维导图类的关系图"></a>二、思维导图类的关系图</h2><p>下方图片是思维导图和本项目中各个类之间的关系图。游戏窗口类是程序的入口，GameObject类是游戏中所有实体类的父类，它包含了背景类、敌机类、我方飞机类、爆炸类、道具类类等多个子类。<br>思维导图：</p>
-<p><img src="/Untitled.assets/2e7a365d9ec4422ab544d364373041ca.png" alt="在这里插入图片描述"></p>
-<h2 id="三、游戏窗口类"><a href="#三、游戏窗口类" class="headerlink" title="三、游戏窗口类"></a>三、游戏窗口类</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br><span class="line">329</span><br><span class="line">330</span><br><span class="line">331</span><br><span class="line">332</span><br><span class="line">333</span><br><span class="line">334</span><br><span class="line">335</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> javax.swing.*;</span><br><span class="line"><span class="keyword">import</span> java.awt.*;</span><br><span class="line"><span class="keyword">import</span> java.awt.event.*;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> RationalDysaniaer</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2023/4/20 23:10</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@version</span> 1.3</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@BlogAddress</span> &lt;a href=&quot;https://blog.csdn.net/qq_43000128/article/details/129863206&quot;&gt;【使用Java Swing创建飞机大战小游戏】&lt;/a&gt;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">GameWin</span> <span class="keyword">extends</span> <span class="title class_">JFrame</span> &#123;</span><br><span class="line">    <span class="comment">//窗口大小</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">WIDTH</span> <span class="operator">=</span> <span class="number">600</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">HEIGHT</span> <span class="operator">=</span> <span class="number">800</span>;</span><br><span class="line">    <span class="comment">//游戏状态</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="variable">state</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="comment">//在内存中创建一个offScreenImage的缓冲图像（双缓存）</span></span><br><span class="line">    <span class="type">Image</span> <span class="variable">offScreenImage</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">    <span class="comment">//计数</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">count</span> <span class="operator">=</span> <span class="number">1</span>;<span class="comment">//时间计数</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">enemyCount</span> <span class="operator">=</span> <span class="number">0</span>;<span class="comment">//敌机数量</span></span><br><span class="line">    <span class="keyword">static</span> <span class="type">int</span> <span class="variable">score</span> <span class="operator">=</span> <span class="number">0</span>;<span class="comment">//得分</span></span><br><span class="line">    <span class="keyword">static</span> <span class="type">int</span> <span class="variable">level</span> <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line">    <span class="type">int</span> <span class="variable">levelProps</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> <span class="variable">lifeProps</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> <span class="variable">enhanceBoos</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> <span class="variable">isBarrier1</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> <span class="variable">isBarrier2</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> <span class="variable">isBarrier3</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> <span class="variable">invincible</span> <span class="operator">=</span> <span class="number">0</span>;<span class="comment">//无敌</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">guard</span> <span class="operator">=</span> <span class="number">3</span>;</span><br><span class="line">    <span class="type">int</span> <span class="variable">cls</span> <span class="operator">=</span> <span class="number">3</span>;</span><br><span class="line">    <span class="comment">//将背景图片和我方飞机绘制到刚才创建的这块缓冲区上</span></span><br><span class="line"></span><br><span class="line">    <span class="type">Background</span> <span class="variable">background</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Background</span>(GameUtils.background, <span class="number">0</span>, -<span class="number">400</span>, <span class="number">2</span>);</span><br><span class="line">    <span class="type">Background</span> <span class="variable">background2</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Background</span>(GameUtils.background2, <span class="number">0</span>, -<span class="number">1600</span>, <span class="number">2</span>);</span><br><span class="line">    <span class="type">Plane</span> <span class="variable">planeObj</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Plane</span>(GameUtils.red, <span class="number">0</span>, <span class="number">0</span>, <span class="number">50</span>, <span class="number">50</span>, <span class="number">0</span>, <span class="built_in">this</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//创建boos空对象</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">Boos</span> <span class="variable">boos</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">reGame</span><span class="params">()</span>&#123;</span><br><span class="line">        count = <span class="number">1</span>;</span><br><span class="line">        enemyCount = <span class="number">0</span>;</span><br><span class="line">        score = <span class="number">0</span>;</span><br><span class="line">        enhanceBoos = <span class="number">0</span>;</span><br><span class="line">        level = <span class="number">1</span>;</span><br><span class="line">        lifeProps = <span class="number">0</span>;</span><br><span class="line">        levelProps = <span class="number">0</span>;</span><br><span class="line">        boos = <span class="literal">null</span>;</span><br><span class="line">        <span class="built_in">this</span>.planeObj.life = <span class="number">30</span>;</span><br><span class="line">        offScreenImage = <span class="literal">null</span>;</span><br><span class="line">        isBarrier1 = <span class="number">0</span>;</span><br><span class="line">        isBarrier2 = <span class="number">0</span>;</span><br><span class="line">        isBarrier3 = <span class="number">0</span>;</span><br><span class="line">        guard = <span class="number">3</span>;</span><br><span class="line">        cls = <span class="number">3</span>;</span><br><span class="line">        GameUtils.gameObjectList.clear();</span><br><span class="line">        GameUtils.removeList.clear();</span><br><span class="line">        GameUtils.enemyShellList.clear();</span><br><span class="line">        GameUtils.enemyObjList.clear();</span><br><span class="line">        GameUtils.shellObjList.clear();</span><br><span class="line">        GameUtils.explodeList.clear();</span><br><span class="line">        GameUtils.gameObjectList.add(background);</span><br><span class="line">        GameUtils.gameObjectList.add(background2);</span><br><span class="line">        GameUtils.gameObjectList.add(planeObj);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">GameWin</span> <span class="variable">game</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">GameWin</span>();</span><br><span class="line">        game.launch();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">paint</span><span class="params">(Graphics g)</span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(offScreenImage == <span class="literal">null</span>)&#123;</span><br><span class="line">            offScreenImage = createImage(WIDTH,HEIGHT);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">Graphics</span> <span class="variable">gImage</span> <span class="operator">=</span> offScreenImage.getGraphics();</span><br><span class="line">        gImage.fillRect(<span class="number">0</span>,<span class="number">0</span>,WIDTH,HEIGHT);</span><br><span class="line">        <span class="comment">//游戏状态</span></span><br><span class="line">        <span class="comment">//开始界面</span></span><br><span class="line">        <span class="keyword">if</span>(state == <span class="number">0</span>)&#123;</span><br><span class="line">            gImage.drawImage(GameUtils.background,<span class="number">0</span>,-<span class="number">400</span>,<span class="built_in">this</span>);</span><br><span class="line">            gImage.drawImage(GameUtils.enemyPlane,<span class="number">20</span>,<span class="number">240</span>,<span class="built_in">this</span>);</span><br><span class="line">            gImage.drawImage(GameUtils.enemyPlane,<span class="number">500</span>,<span class="number">240</span>,<span class="built_in">this</span>);</span><br><span class="line">            gImage.drawImage(GameUtils.red,<span class="number">250</span>,<span class="number">600</span>,<span class="built_in">this</span>);</span><br><span class="line">            gImage.drawImage(GameUtils.title,(<span class="number">600</span>-<span class="number">475</span>)/<span class="number">2</span>-<span class="number">12</span>,<span class="number">80</span>,<span class="built_in">this</span>);</span><br><span class="line">            GameUtils.drawWord(gImage,<span class="string">&quot;&lt;点击屏幕开始游戏&gt;&quot;</span>,Color.yellow,<span class="number">40</span>,<span class="number">112</span>,<span class="number">400</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//游戏运行</span></span><br><span class="line">        <span class="keyword">if</span>(state == <span class="number">1</span>)&#123;</span><br><span class="line">            GameUtils.gameObjectList.addAll(GameUtils.explodeList);<span class="comment">//？？？？</span></span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; GameUtils.gameObjectList.size(); i++) &#123;</span><br><span class="line">                GameUtils.gameObjectList.get(i).paintSelf(gImage);</span><br><span class="line">            &#125;</span><br><span class="line">            GameUtils.heartShow(gImage, planeObj.life,<span class="built_in">this</span>);</span><br><span class="line">            GameUtils.gameObjectList.removeAll(GameUtils.removeList);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//游戏失败</span></span><br><span class="line">        <span class="keyword">if</span>(state == <span class="number">3</span>)&#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; GameUtils.gameObjectList.size(); i++) &#123;</span><br><span class="line">                GameUtils.gameObjectList.get(i).paintSelf(gImage);</span><br><span class="line">            &#125;</span><br><span class="line">            gImage.drawImage(GameUtils.ExplodeSmall,planeObj.getX()-<span class="number">15</span>, planeObj.getY()-<span class="number">10</span>,<span class="built_in">this</span>);</span><br><span class="line">            GameUtils.heartShow(gImage, planeObj.life,<span class="built_in">this</span>);</span><br><span class="line">            GameUtils.drawWord(gImage,<span class="string">&quot;GAME OVER&quot;</span>,Color.yellow,<span class="number">60</span>,<span class="number">160</span>,<span class="number">330</span>);</span><br><span class="line">            GameUtils.drawWord(gImage,<span class="string">&quot;*按空格键重新开始*&quot;</span>,Color.yellow,<span class="number">60</span>,<span class="number">20</span>,<span class="number">400</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//游戏胜利</span></span><br><span class="line">        <span class="keyword">if</span>(state == <span class="number">4</span>)&#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; GameUtils.gameObjectList.size(); i++) &#123;</span><br><span class="line">                GameUtils.gameObjectList.get(i).paintSelf(gImage);</span><br><span class="line">            &#125;</span><br><span class="line">            gImage.drawImage(GameUtils.ExplodeBig, boos.getX()-<span class="number">10</span>, boos.getY()-<span class="number">10</span>,<span class="built_in">this</span>);</span><br><span class="line">            GameUtils.heartShow(gImage, planeObj.life,<span class="built_in">this</span>);</span><br><span class="line">            GameUtils.drawWord(gImage,<span class="string">&quot;VICTORY!&quot;</span>,Color.yellow,<span class="number">60</span>,<span class="number">160</span>,<span class="number">330</span>);</span><br><span class="line">            GameUtils.drawWord(gImage,<span class="string">&quot;*按空格键重新开始*&quot;</span>,Color.yellow,<span class="number">60</span>,<span class="number">20</span>,<span class="number">400</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="comment">//BOOS警告和变异字幕</span></span><br><span class="line">        <span class="keyword">if</span>(state == <span class="number">1</span>)&#123;</span><br><span class="line">            <span class="keyword">if</span>(enemyCount &gt; <span class="number">10</span> &amp;&amp; enemyCount&lt;<span class="number">20</span>)&#123;</span><br><span class="line">                GameUtils.drawWord(gImage,<span class="string">&quot;============================================================&quot;</span>,Color.red,<span class="number">100</span>,<span class="number">0</span>,<span class="number">300</span>);</span><br><span class="line">                <span class="keyword">if</span>(enemyCount%<span class="number">2</span> == <span class="number">0</span>)</span><br><span class="line">                    GameUtils.drawWord(gImage,<span class="string">&quot; 警告！！！&quot;</span>,Color.red,<span class="number">100</span>,<span class="number">0</span>,<span class="number">400</span>);</span><br><span class="line">                GameUtils.drawWord(gImage,<span class="string">&quot;============================================================&quot;</span>,Color.red,<span class="number">100</span>,<span class="number">0</span>,<span class="number">500</span>);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span>(<span class="built_in">this</span>.boos != <span class="literal">null</span> &amp;&amp; <span class="built_in">this</span>.boos.life &lt;= <span class="number">200</span> &amp;&amp; enhanceBoos &lt; <span class="number">50</span>)&#123;</span><br><span class="line">                GameUtils.drawWord(gImage,<span class="string">&quot;============================================================&quot;</span>,Color.red,<span class="number">100</span>,<span class="number">0</span>,<span class="number">300</span>);</span><br><span class="line">                <span class="keyword">if</span>(enemyCount%<span class="number">2</span> == <span class="number">0</span>)&#123;</span><br><span class="line">                    GameUtils.drawWord(gImage,<span class="string">&quot; BOOS增强！！！&quot;</span>,Color.red,<span class="number">100</span>,<span class="number">0</span>,<span class="number">400</span>);</span><br><span class="line">                    enhanceBoos ++;</span><br><span class="line">                &#125;</span><br><span class="line">                GameUtils.drawWord(gImage,<span class="string">&quot;============================================================&quot;</span>,Color.red,<span class="number">100</span>,<span class="number">0</span>,<span class="number">500</span>);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span>(<span class="built_in">this</span>.boos != <span class="literal">null</span> &amp;&amp; <span class="built_in">this</span>.boos.life &lt;= <span class="number">100</span> &amp;&amp; enhanceBoos &lt; <span class="number">100</span>)&#123;</span><br><span class="line">                GameUtils.drawWord(gImage,<span class="string">&quot;============================================================&quot;</span>,Color.red,<span class="number">100</span>,<span class="number">0</span>,<span class="number">300</span>);</span><br><span class="line">                <span class="keyword">if</span>(enemyCount%<span class="number">2</span> == <span class="number">0</span>)&#123;</span><br><span class="line">                    GameUtils.drawWord(gImage,<span class="string">&quot; BOOS变异！！！&quot;</span>,Color.red,<span class="number">100</span>,<span class="number">0</span>,<span class="number">400</span>);</span><br><span class="line">                    enhanceBoos ++;</span><br><span class="line">                &#125;</span><br><span class="line">                GameUtils.drawWord(gImage,<span class="string">&quot;============================================================&quot;</span>,Color.red,<span class="number">100</span>,<span class="number">0</span>,<span class="number">500</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//得分、等级、技能次数</span></span><br><span class="line">        <span class="keyword">if</span>(state != <span class="number">0</span>)&#123;</span><br><span class="line">            GameUtils.drawWord(gImage,score+<span class="string">&quot; 分&quot;</span>,Color.green,<span class="number">40</span>,<span class="number">460</span>,<span class="number">100</span>);</span><br><span class="line">            GameUtils.drawWord(gImage,<span class="string">&quot;Level:&quot;</span>+level,Color.green,<span class="number">30</span>,<span class="number">455</span>,<span class="number">775</span>);</span><br><span class="line">            GameUtils.drawWord(gImage,<span class="string">&quot;护盾(C):&quot;</span>+guard,Color.blue,<span class="number">20</span>,<span class="number">330</span>,<span class="number">785</span>);</span><br><span class="line">            GameUtils.drawWord(gImage,<span class="string">&quot;清屏(X):&quot;</span>+cls,Color.blue,<span class="number">20</span>,<span class="number">330</span>,<span class="number">760</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//将缓冲图像画入</span></span><br><span class="line">        g.drawImage(offScreenImage,<span class="number">0</span>,<span class="number">0</span>,<span class="literal">null</span>);</span><br><span class="line">        <span class="comment">//时间计数</span></span><br><span class="line">        count++;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">launch</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="type">Music</span> <span class="variable">music</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Music</span>();</span><br><span class="line">        music.play();</span><br><span class="line">        <span class="built_in">this</span>.setSize(WIDTH,HEIGHT);<span class="comment">//窗口大小</span></span><br><span class="line">        <span class="built_in">this</span>.setLocationRelativeTo(<span class="literal">null</span>);<span class="comment">//窗口居中</span></span><br><span class="line">        <span class="built_in">this</span>.setTitle(<span class="string">&quot;飞机大战&quot;</span>);</span><br><span class="line">        <span class="built_in">this</span>.setVisible(<span class="literal">true</span>);</span><br><span class="line">        <span class="built_in">this</span>.setResizable(<span class="literal">false</span>);<span class="comment">//不可改变大小</span></span><br><span class="line">        <span class="built_in">this</span>.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);<span class="comment">//关闭游戏结束程序</span></span><br><span class="line"></span><br><span class="line">        GameUtils.gameObjectList.add(background);</span><br><span class="line">        GameUtils.gameObjectList.add(background2);</span><br><span class="line">        GameUtils.gameObjectList.add(planeObj);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//鼠标监听</span></span><br><span class="line">        <span class="built_in">this</span>.addMouseListener(<span class="keyword">new</span> <span class="title class_">MouseAdapter</span>() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">mouseClicked</span><span class="params">(MouseEvent e)</span> &#123;</span><br><span class="line">                <span class="keyword">if</span>(e.getButton() == <span class="number">1</span> &amp;&amp; state == <span class="number">0</span>)&#123;</span><br><span class="line">                    state = <span class="number">1</span>;<span class="comment">//开始游戏</span></span><br><span class="line">                    repaint();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//游戏暂停、重新开始</span></span><br><span class="line">        <span class="built_in">this</span>.addKeyListener(<span class="keyword">new</span> <span class="title class_">KeyAdapter</span>() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">keyPressed</span><span class="params">(KeyEvent e)</span> &#123;</span><br><span class="line">                <span class="keyword">if</span>(e.getKeyCode() == <span class="number">32</span>)&#123;</span><br><span class="line">                    <span class="keyword">switch</span> (state)&#123;</span><br><span class="line">                        <span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">                            state = <span class="number">2</span>;</span><br><span class="line">                            <span class="keyword">break</span>;</span><br><span class="line">                        <span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">                            state = <span class="number">1</span>;</span><br><span class="line">                            <span class="keyword">break</span>;</span><br><span class="line">                        <span class="keyword">case</span> <span class="number">3</span>:</span><br><span class="line">                        <span class="keyword">case</span> <span class="number">4</span>:</span><br><span class="line">                            reGame();</span><br><span class="line">                            state = <span class="number">0</span>;</span><br><span class="line">                            repaint();</span><br><span class="line">                            <span class="keyword">break</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span>(e.getKeyCode() == <span class="number">67</span>)&#123;</span><br><span class="line">                    <span class="keyword">if</span>(guard &gt; <span class="number">0</span>)&#123;</span><br><span class="line">                        guard--;</span><br><span class="line">                        invincible = <span class="number">1</span>;</span><br><span class="line">                        <span class="type">Thread</span> <span class="variable">th</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Thread</span>()&#123;</span><br><span class="line">                            <span class="meta">@Override</span></span><br><span class="line">                            <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123;</span><br><span class="line">                                <span class="built_in">super</span>.run();</span><br><span class="line">                                <span class="keyword">try</span> &#123;</span><br><span class="line">                                    Thread.sleep(<span class="number">5000</span>);</span><br><span class="line">                                    System.out.println(<span class="number">66</span>);</span><br><span class="line">                                &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                                    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RuntimeException</span>(e);</span><br><span class="line">                                &#125;</span><br><span class="line">                                invincible = <span class="number">0</span>;</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;;</span><br><span class="line">                        th.start();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span>(e.getKeyCode() == <span class="number">88</span>)&#123;</span><br><span class="line">                    <span class="keyword">if</span>(cls &gt; <span class="number">0</span>)&#123;</span><br><span class="line">                        GameUtils.gameObjectList.removeAll(GameUtils.enemyObjList);</span><br><span class="line">                        GameUtils.gameObjectList.removeAll(GameUtils.enemyShellList);</span><br><span class="line">                        cls--;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (<span class="literal">true</span>)&#123;</span><br><span class="line">            <span class="keyword">if</span>(state == <span class="number">1</span>)&#123;</span><br><span class="line">                createObject();</span><br><span class="line">                repaint();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                Thread.sleep(<span class="number">25</span>);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RuntimeException</span>(e);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//Thread.sleep()是Thread类的一个静态方法，使当前线程休眠，进入阻塞状态（暂停执行），如果线程在睡眠状态被中断，将会抛出InterruptedException中断异常</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">createObject</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="comment">//生成我方飞机子弹</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">shellSpeedRed</span> <span class="operator">=</span> <span class="number">11</span> - level;</span><br><span class="line">        <span class="type">int</span> <span class="variable">speed</span> <span class="operator">=</span> <span class="number">5</span> + (level-<span class="number">1</span>)*<span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span> (count % shellSpeedRed == <span class="number">0</span>) &#123;</span><br><span class="line">            GameUtils.shellObjList.add(<span class="keyword">new</span> <span class="title class_">Shell</span>(GameUtils.shell, planeObj.getX(), planeObj.getY() - <span class="number">50</span>, <span class="number">30</span>, <span class="number">50</span>, speed, <span class="built_in">this</span>));</span><br><span class="line">            GameUtils.gameObjectList.add(GameUtils.shellObjList.get(GameUtils.shellObjList.size() - <span class="number">1</span>));</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//生成敌方飞机</span></span><br><span class="line">        <span class="keyword">if</span> (count % <span class="number">15</span> == <span class="number">0</span>) &#123;</span><br><span class="line">            GameUtils.enemyObjList.add(<span class="keyword">new</span> <span class="title class_">Enemy</span>(GameUtils.enemyPlane, (<span class="type">int</span>) (Math.random() * <span class="number">12</span>) * <span class="number">46</span>, <span class="number">10</span>, <span class="number">60</span>, <span class="number">36</span>, (<span class="type">int</span>) (Math.random() * (<span class="number">10</span> - <span class="number">3</span> + <span class="number">1</span>) + <span class="number">3</span>), <span class="built_in">this</span>));</span><br><span class="line">            GameUtils.gameObjectList.add(GameUtils.enemyObjList.get(GameUtils.enemyObjList.size() - <span class="number">1</span>));</span><br><span class="line">            enemyCount++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//生成敌方boos子弹</span></span><br><span class="line">        <span class="type">int</span> shellSpeed;</span><br><span class="line">        <span class="keyword">if</span> (boos != <span class="literal">null</span> &amp;&amp; <span class="built_in">this</span>.boos.life &gt;= <span class="number">100</span>)</span><br><span class="line">            shellSpeed = <span class="number">5</span>;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            shellSpeed = <span class="number">3</span>;</span><br><span class="line">        <span class="keyword">if</span> (count % shellSpeed == <span class="number">0</span> &amp;&amp; boos != <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="comment">//散弹</span></span><br><span class="line">            <span class="type">int</span> z, speed2;</span><br><span class="line">            z = (<span class="type">int</span>) (Math.random() * (<span class="number">3</span> - <span class="number">1</span> + <span class="number">1</span>) + <span class="number">1</span>);</span><br><span class="line">            speed2 = (<span class="type">int</span>) (Math.random() * (<span class="number">5</span> - <span class="number">3</span> + <span class="number">1</span>) + <span class="number">3</span>);</span><br><span class="line">            <span class="comment">//追踪弹</span></span><br><span class="line">            <span class="type">int</span> <span class="variable">x1</span> <span class="operator">=</span> boos.getX() + <span class="number">76</span>;</span><br><span class="line">            <span class="type">int</span> <span class="variable">y1</span> <span class="operator">=</span> boos.getY() + <span class="number">85</span>;</span><br><span class="line">            <span class="type">int</span> <span class="variable">x2</span> <span class="operator">=</span> planeObj.getX();</span><br><span class="line">            <span class="type">int</span> <span class="variable">y2</span> <span class="operator">=</span> planeObj.getY() - <span class="number">50</span>;</span><br><span class="line">            <span class="type">int</span> k;</span><br><span class="line">            <span class="keyword">if</span> (x2 != x1)</span><br><span class="line">                k = (y2 - y1) / (x2 - x1);</span><br><span class="line">            <span class="keyword">else</span> k = <span class="number">0</span>;</span><br><span class="line">            <span class="type">int</span> <span class="variable">b</span> <span class="operator">=</span> (<span class="type">int</span>) (y1 - <span class="number">1.0</span> * k * x1);</span><br><span class="line">            GameUtils.enemyShellList.add(<span class="keyword">new</span> <span class="title class_">EnemyBullet</span>(GameUtils.enemyShell, boos.getX() + <span class="number">82</span>, boos.getY() + <span class="number">85</span>, <span class="number">5</span>, <span class="number">20</span>, (<span class="type">int</span>) (Math.random() * (<span class="number">15</span> - <span class="number">5</span> + <span class="number">1</span>) + <span class="number">5</span>), z, speed2, k, b, <span class="built_in">this</span>));</span><br><span class="line">            GameUtils.gameObjectList.add(GameUtils.enemyShellList.get(GameUtils.enemyShellList.size() - <span class="number">1</span>));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//出现二十架敌机后出现boos</span></span><br><span class="line">        <span class="keyword">if</span> (enemyCount &gt; <span class="number">20</span> &amp;&amp; boos == <span class="literal">null</span>) &#123;</span><br><span class="line">            boos = <span class="keyword">new</span> <span class="title class_">Boos</span>(GameUtils.boos, <span class="number">250</span>, <span class="number">0</span>, <span class="number">170</span>, <span class="number">100</span>, <span class="number">5</span>, <span class="built_in">this</span>);</span><br><span class="line">            GameUtils.gameObjectList.add(boos);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//生成升级道具</span></span><br><span class="line">        <span class="keyword">if</span> (boos != <span class="literal">null</span></span><br><span class="line">            &amp;&amp; boos.life &lt;= <span class="number">300</span> - levelProps*<span class="number">50</span></span><br><span class="line">            &amp;&amp; levelProps &lt; <span class="number">5</span>)&#123;</span><br><span class="line">            levelProps++;</span><br><span class="line">            GameUtils.gameObjectList.add(<span class="keyword">new</span> <span class="title class_">Props</span>(GameUtils.level, <span class="string">&quot;level&quot;</span>, (<span class="type">int</span>) (Math.random() * <span class="number">12</span>) * <span class="number">46</span>, <span class="number">10</span>, <span class="number">35</span>, <span class="number">50</span>, <span class="number">2</span>, <span class="built_in">this</span>));</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//生成生命道具</span></span><br><span class="line">        <span class="keyword">if</span> (score &gt; <span class="number">100</span> + lifeProps * <span class="number">100</span>) &#123;</span><br><span class="line">            lifeProps++;</span><br><span class="line">            GameUtils.gameObjectList.add(<span class="keyword">new</span> <span class="title class_">Props</span>(GameUtils.heart, <span class="string">&quot;life&quot;</span>, (<span class="type">int</span>) (Math.random() * <span class="number">12</span>) * <span class="number">46</span>, <span class="number">10</span>, <span class="number">50</span>, <span class="number">50</span>, <span class="number">2</span>, <span class="built_in">this</span>));</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//生成障碍</span></span><br><span class="line">        <span class="keyword">if</span>(score &gt; <span class="number">0</span> &amp;&amp; isBarrier1 == <span class="number">0</span>)&#123;</span><br><span class="line">            isBarrier1 = <span class="number">1</span>;</span><br><span class="line">            GameUtils.gameObjectList.add(<span class="keyword">new</span> <span class="title class_">barrier</span>(<span class="number">50</span>,<span class="number">200</span>,<span class="number">5</span>,<span class="number">15</span>,<span class="number">50</span>,<span class="number">50</span>,<span class="built_in">this</span>));</span><br><span class="line">            GameUtils.gameObjectList.add(<span class="keyword">new</span> <span class="title class_">barrier</span>(<span class="number">350</span>,<span class="number">200</span>,<span class="number">5</span>,<span class="number">15</span>,<span class="number">50</span>,<span class="number">50</span>,<span class="built_in">this</span>));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(boos!= <span class="literal">null</span> &amp;&amp; boos.life &lt; <span class="number">100</span> &amp;&amp; isBarrier1 == <span class="number">1</span>)&#123;</span><br><span class="line">            isBarrier1 = <span class="number">2</span>;</span><br><span class="line">            GameUtils.gameObjectList.add(<span class="keyword">new</span> <span class="title class_">barrier</span>(<span class="number">50</span>,<span class="number">200</span>,<span class="number">5</span>,<span class="number">30</span>,<span class="number">50</span>,<span class="number">50</span>,<span class="built_in">this</span>));</span><br><span class="line">            GameUtils.gameObjectList.add(<span class="keyword">new</span> <span class="title class_">barrier</span>(<span class="number">350</span>,<span class="number">200</span>,<span class="number">5</span>,<span class="number">30</span>,<span class="number">50</span>,<span class="number">50</span>,<span class="built_in">this</span>));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(score &gt; (isBarrier2+<span class="number">1</span>)*<span class="number">100</span>)&#123;</span><br><span class="line">            isBarrier2++;</span><br><span class="line">            GameUtils.gameObjectList.add(<span class="keyword">new</span> <span class="title class_">barrier</span>(<span class="number">200</span>,<span class="number">250</span>,<span class="number">5</span>,<span class="number">10</span>,<span class="number">50</span>,<span class="number">50</span>,<span class="built_in">this</span>));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(score &gt; (isBarrier3+<span class="number">1</span>)*<span class="number">140</span>)&#123;</span><br><span class="line">            isBarrier3++;</span><br><span class="line">            GameUtils.gameObjectList.add(<span class="keyword">new</span> <span class="title class_">barrier</span>(<span class="number">50</span>,<span class="number">150</span>,<span class="number">5</span>,<span class="number">5</span>,<span class="number">50</span>,<span class="number">50</span>,<span class="built_in">this</span>));</span><br><span class="line">            GameUtils.gameObjectList.add(<span class="keyword">new</span> <span class="title class_">barrier</span>(<span class="number">350</span>,<span class="number">150</span>,<span class="number">5</span>,<span class="number">5</span>,<span class="number">50</span>,<span class="number">50</span>,<span class="built_in">this</span>));</span><br><span class="line">            GameUtils.gameObjectList.add(<span class="keyword">new</span> <span class="title class_">barrier</span>(<span class="number">50</span>,<span class="number">250</span>,<span class="number">5</span>,<span class="number">5</span>,<span class="number">50</span>,<span class="number">50</span>,<span class="built_in">this</span>));</span><br><span class="line">            GameUtils.gameObjectList.add(<span class="keyword">new</span> <span class="title class_">barrier</span>(<span class="number">350</span>,<span class="number">250</span>,<span class="number">5</span>,<span class="number">5</span>,<span class="number">50</span>,<span class="number">50</span>,<span class="built_in">this</span>));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>![在这里插入图片描述](【使用Java Swing创建飞机大战小游戏】.assets&#x2F;2e7a365d9ec4422ab544d364373041ca.png)</p>
+<h2 id="三、游戏窗口类"><a href="#三、游戏窗口类" class="headerlink" title="三、游戏窗口类"></a>三、游戏窗口类</h2><pre><code class="java">import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+
+/**
+ * @author RationalDysaniaer
+ * @date 2023/4/20 23:10
+ * @version 1.3
+ * @BlogAddress &lt;a href=&quot;https://blog.csdn.net/qq_43000128/article/details/129863206&quot;&gt;【使用Java Swing创建飞机大战小游戏】&lt;/a&gt;
+ */
+
+public class GameWin extends JFrame &#123;
+    //窗口大小
+    public final int WIDTH = 600;
+    public final int HEIGHT = 800;
+    //游戏状态
+    public static int state = 0;
+    //在内存中创建一个offScreenImage的缓冲图像（双缓存）
+    Image offScreenImage = null;
+    //计数
+    int count = 1;//时间计数
+    int enemyCount = 0;//敌机数量
+    static int score = 0;//得分
+    static int level = 1;
+    int levelProps = 0;
+    int lifeProps = 0;
+    int enhanceBoos = 0;
+    int isBarrier1 = 0;
+    int isBarrier2 = 0;
+    int isBarrier3 = 0;
+    int invincible = 0;//无敌
+    int guard = 3;
+    int cls = 3;
+    //将背景图片和我方飞机绘制到刚才创建的这块缓冲区上
+
+    Background background = new Background(GameUtils.background, 0, -400, 2);
+    Background background2 = new Background(GameUtils.background2, 0, -1600, 2);
+    Plane planeObj = new Plane(GameUtils.red, 0, 0, 50, 50, 0, this);
+
+    //创建boos空对象
+    public Boos boos = null;
+
+    public void reGame()&#123;
+        count = 1;
+        enemyCount = 0;
+        score = 0;
+        enhanceBoos = 0;
+        level = 1;
+        lifeProps = 0;
+        levelProps = 0;
+        boos = null;
+        this.planeObj.life = 30;
+        offScreenImage = null;
+        isBarrier1 = 0;
+        isBarrier2 = 0;
+        isBarrier3 = 0;
+        guard = 3;
+        cls = 3;
+        GameUtils.gameObjectList.clear();
+        GameUtils.removeList.clear();
+        GameUtils.enemyShellList.clear();
+        GameUtils.enemyObjList.clear();
+        GameUtils.shellObjList.clear();
+        GameUtils.explodeList.clear();
+        GameUtils.gameObjectList.add(background);
+        GameUtils.gameObjectList.add(background2);
+        GameUtils.gameObjectList.add(planeObj);
+    &#125;
+
+    public static void main(String[] args) &#123;
+        GameWin game = new GameWin();
+        game.launch();
+    &#125;
+
+    @Override
+    public void paint(Graphics g)&#123;
+        if(offScreenImage == null)&#123;
+            offScreenImage = createImage(WIDTH,HEIGHT);
+        &#125;
+        Graphics gImage = offScreenImage.getGraphics();
+        gImage.fillRect(0,0,WIDTH,HEIGHT);
+        //游戏状态
+        //开始界面
+        if(state == 0)&#123;
+            gImage.drawImage(GameUtils.background,0,-400,this);
+            gImage.drawImage(GameUtils.enemyPlane,20,240,this);
+            gImage.drawImage(GameUtils.enemyPlane,500,240,this);
+            gImage.drawImage(GameUtils.red,250,600,this);
+            gImage.drawImage(GameUtils.title,(600-475)/2-12,80,this);
+            GameUtils.drawWord(gImage,&quot;&lt;点击屏幕开始游戏&gt;&quot;,Color.yellow,40,112,400);
+        &#125;
+        //游戏运行
+        if(state == 1)&#123;
+            GameUtils.gameObjectList.addAll(GameUtils.explodeList);//？？？？
+            for (int i = 0; i &lt; GameUtils.gameObjectList.size(); i++) &#123;
+                GameUtils.gameObjectList.get(i).paintSelf(gImage);
+            &#125;
+            GameUtils.heartShow(gImage, planeObj.life,this);
+            GameUtils.gameObjectList.removeAll(GameUtils.removeList);
+        &#125;
+        //游戏失败
+        if(state == 3)&#123;
+            for (int i = 0; i &lt; GameUtils.gameObjectList.size(); i++) &#123;
+                GameUtils.gameObjectList.get(i).paintSelf(gImage);
+            &#125;
+            gImage.drawImage(GameUtils.ExplodeSmall,planeObj.getX()-15, planeObj.getY()-10,this);
+            GameUtils.heartShow(gImage, planeObj.life,this);
+            GameUtils.drawWord(gImage,&quot;GAME OVER&quot;,Color.yellow,60,160,330);
+            GameUtils.drawWord(gImage,&quot;*按空格键重新开始*&quot;,Color.yellow,60,20,400);
+        &#125;
+        //游戏胜利
+        if(state == 4)&#123;
+            for (int i = 0; i &lt; GameUtils.gameObjectList.size(); i++) &#123;
+                GameUtils.gameObjectList.get(i).paintSelf(gImage);
+            &#125;
+            gImage.drawImage(GameUtils.ExplodeBig, boos.getX()-10, boos.getY()-10,this);
+            GameUtils.heartShow(gImage, planeObj.life,this);
+            GameUtils.drawWord(gImage,&quot;VICTORY!&quot;,Color.yellow,60,160,330);
+            GameUtils.drawWord(gImage,&quot;*按空格键重新开始*&quot;,Color.yellow,60,20,400);
+        &#125;
+
+
+        //BOOS警告和变异字幕
+        if(state == 1)&#123;
+            if(enemyCount &gt; 10 &amp;&amp; enemyCount&lt;20)&#123;
+                GameUtils.drawWord(gImage,&quot;============================================================&quot;,Color.red,100,0,300);
+                if(enemyCount%2 == 0)
+                    GameUtils.drawWord(gImage,&quot; 警告！！！&quot;,Color.red,100,0,400);
+                GameUtils.drawWord(gImage,&quot;============================================================&quot;,Color.red,100,0,500);
+            &#125;
+
+            if(this.boos != null &amp;&amp; this.boos.life &lt;= 200 &amp;&amp; enhanceBoos &lt; 50)&#123;
+                GameUtils.drawWord(gImage,&quot;============================================================&quot;,Color.red,100,0,300);
+                if(enemyCount%2 == 0)&#123;
+                    GameUtils.drawWord(gImage,&quot; BOOS增强！！！&quot;,Color.red,100,0,400);
+                    enhanceBoos ++;
+                &#125;
+                GameUtils.drawWord(gImage,&quot;============================================================&quot;,Color.red,100,0,500);
+            &#125;
+
+            if(this.boos != null &amp;&amp; this.boos.life &lt;= 100 &amp;&amp; enhanceBoos &lt; 100)&#123;
+                GameUtils.drawWord(gImage,&quot;============================================================&quot;,Color.red,100,0,300);
+                if(enemyCount%2 == 0)&#123;
+                    GameUtils.drawWord(gImage,&quot; BOOS变异！！！&quot;,Color.red,100,0,400);
+                    enhanceBoos ++;
+                &#125;
+                GameUtils.drawWord(gImage,&quot;============================================================&quot;,Color.red,100,0,500);
+            &#125;
+        &#125;
+
+        //得分、等级、技能次数
+        if(state != 0)&#123;
+            GameUtils.drawWord(gImage,score+&quot; 分&quot;,Color.green,40,460,100);
+            GameUtils.drawWord(gImage,&quot;Level:&quot;+level,Color.green,30,455,775);
+            GameUtils.drawWord(gImage,&quot;护盾(C):&quot;+guard,Color.blue,20,330,785);
+            GameUtils.drawWord(gImage,&quot;清屏(X):&quot;+cls,Color.blue,20,330,760);
+        &#125;
+        //将缓冲图像画入
+        g.drawImage(offScreenImage,0,0,null);
+        //时间计数
+        count++;
+    &#125;
+
+    public void launch()&#123;
+        Music music = new Music();
+        music.play();
+        this.setSize(WIDTH,HEIGHT);//窗口大小
+        this.setLocationRelativeTo(null);//窗口居中
+        this.setTitle(&quot;飞机大战&quot;);
+        this.setVisible(true);
+        this.setResizable(false);//不可改变大小
+        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);//关闭游戏结束程序
+
+        GameUtils.gameObjectList.add(background);
+        GameUtils.gameObjectList.add(background2);
+        GameUtils.gameObjectList.add(planeObj);
+
+        //鼠标监听
+        this.addMouseListener(new MouseAdapter() &#123;
+            @Override
+            public void mouseClicked(MouseEvent e) &#123;
+                if(e.getButton() == 1 &amp;&amp; state == 0)&#123;
+                    state = 1;//开始游戏
+                    repaint();
+                &#125;
+            &#125;
+        &#125;);
+
+        //游戏暂停、重新开始
+        this.addKeyListener(new KeyAdapter() &#123;
+            @Override
+            public void keyPressed(KeyEvent e) &#123;
+                if(e.getKeyCode() == 32)&#123;
+                    switch (state)&#123;
+                        case 1:
+                            state = 2;
+                            break;
+                        case 2:
+                            state = 1;
+                            break;
+                        case 3:
+                        case 4:
+                            reGame();
+                            state = 0;
+                            repaint();
+                            break;
+                    &#125;
+                &#125;
+                if(e.getKeyCode() == 67)&#123;
+                    if(guard &gt; 0)&#123;
+                        guard--;
+                        invincible = 1;
+                        Thread th = new Thread()&#123;
+                            @Override
+                            public void run() &#123;
+                                super.run();
+                                try &#123;
+                                    Thread.sleep(5000);
+                                    System.out.println(66);
+                                &#125; catch (InterruptedException e) &#123;
+                                    throw new RuntimeException(e);
+                                &#125;
+                                invincible = 0;
+                            &#125;
+                        &#125;;
+                        th.start();
+                    &#125;
+                &#125;
+                if(e.getKeyCode() == 88)&#123;
+                    if(cls &gt; 0)&#123;
+                        GameUtils.gameObjectList.removeAll(GameUtils.enemyObjList);
+                        GameUtils.gameObjectList.removeAll(GameUtils.enemyShellList);
+                        cls--;
+                    &#125;
+                &#125;
+            &#125;
+        &#125;);
+
+        while (true)&#123;
+            if(state == 1)&#123;
+                createObject();
+                repaint();
+            &#125;
+            try &#123;
+                Thread.sleep(25);
+            &#125; catch (InterruptedException e) &#123;
+                throw new RuntimeException(e);
+            &#125;
+            //Thread.sleep()是Thread类的一个静态方法，使当前线程休眠，进入阻塞状态（暂停执行），如果线程在睡眠状态被中断，将会抛出InterruptedException中断异常
+        &#125;
+    &#125;
+
+    void createObject() &#123;
+        //生成我方飞机子弹
+        int shellSpeedRed = 11 - level;
+        int speed = 5 + (level-1)*2;
+        if (count % shellSpeedRed == 0) &#123;
+            GameUtils.shellObjList.add(new Shell(GameUtils.shell, planeObj.getX(), planeObj.getY() - 50, 30, 50, speed, this));
+            GameUtils.gameObjectList.add(GameUtils.shellObjList.get(GameUtils.shellObjList.size() - 1));
+        &#125;
+
+        //生成敌方飞机
+        if (count % 15 == 0) &#123;
+            GameUtils.enemyObjList.add(new Enemy(GameUtils.enemyPlane, (int) (Math.random() * 12) * 46, 10, 60, 36, (int) (Math.random() * (10 - 3 + 1) + 3), this));
+            GameUtils.gameObjectList.add(GameUtils.enemyObjList.get(GameUtils.enemyObjList.size() - 1));
+            enemyCount++;
+        &#125;
+        //生成敌方boos子弹
+        int shellSpeed;
+        if (boos != null &amp;&amp; this.boos.life &gt;= 100)
+            shellSpeed = 5;
+        else
+            shellSpeed = 3;
+        if (count % shellSpeed == 0 &amp;&amp; boos != null) &#123;
+            //散弹
+            int z, speed2;
+            z = (int) (Math.random() * (3 - 1 + 1) + 1);
+            speed2 = (int) (Math.random() * (5 - 3 + 1) + 3);
+            //追踪弹
+            int x1 = boos.getX() + 76;
+            int y1 = boos.getY() + 85;
+            int x2 = planeObj.getX();
+            int y2 = planeObj.getY() - 50;
+            int k;
+            if (x2 != x1)
+                k = (y2 - y1) / (x2 - x1);
+            else k = 0;
+            int b = (int) (y1 - 1.0 * k * x1);
+            GameUtils.enemyShellList.add(new EnemyBullet(GameUtils.enemyShell, boos.getX() + 82, boos.getY() + 85, 5, 20, (int) (Math.random() * (15 - 5 + 1) + 5), z, speed2, k, b, this));
+            GameUtils.gameObjectList.add(GameUtils.enemyShellList.get(GameUtils.enemyShellList.size() - 1));
+        &#125;
+        //出现二十架敌机后出现boos
+        if (enemyCount &gt; 20 &amp;&amp; boos == null) &#123;
+            boos = new Boos(GameUtils.boos, 250, 0, 170, 100, 5, this);
+            GameUtils.gameObjectList.add(boos);
+        &#125;
+
+        //生成升级道具
+        if (boos != null
+            &amp;&amp; boos.life &lt;= 300 - levelProps*50
+            &amp;&amp; levelProps &lt; 5)&#123;
+            levelProps++;
+            GameUtils.gameObjectList.add(new Props(GameUtils.level, &quot;level&quot;, (int) (Math.random() * 12) * 46, 10, 35, 50, 2, this));
+        &#125;
+
+        //生成生命道具
+        if (score &gt; 100 + lifeProps * 100) &#123;
+            lifeProps++;
+            GameUtils.gameObjectList.add(new Props(GameUtils.heart, &quot;life&quot;, (int) (Math.random() * 12) * 46, 10, 50, 50, 2, this));
+        &#125;
+
+        //生成障碍
+        if(score &gt; 0 &amp;&amp; isBarrier1 == 0)&#123;
+            isBarrier1 = 1;
+            GameUtils.gameObjectList.add(new barrier(50,200,5,15,50,50,this));
+            GameUtils.gameObjectList.add(new barrier(350,200,5,15,50,50,this));
+        &#125;
+        if(boos!= null &amp;&amp; boos.life &lt; 100 &amp;&amp; isBarrier1 == 1)&#123;
+            isBarrier1 = 2;
+            GameUtils.gameObjectList.add(new barrier(50,200,5,30,50,50,this));
+            GameUtils.gameObjectList.add(new barrier(350,200,5,30,50,50,this));
+        &#125;
+        if(score &gt; (isBarrier2+1)*100)&#123;
+            isBarrier2++;
+            GameUtils.gameObjectList.add(new barrier(200,250,5,10,50,50,this));
+        &#125;
+        if(score &gt; (isBarrier3+1)*140)&#123;
+            isBarrier3++;
+            GameUtils.gameObjectList.add(new barrier(50,150,5,5,50,50,this));
+            GameUtils.gameObjectList.add(new barrier(350,150,5,5,50,50,this));
+            GameUtils.gameObjectList.add(new barrier(50,250,5,5,50,50,this));
+            GameUtils.gameObjectList.add(new barrier(350,250,5,5,50,50,this));
+        &#125;
+    &#125;
+&#125;
+</code></pre>
 <p>该代码是飞机大战游戏窗口类GameWin，它继承自 JFrame 类，用于显示和进入游戏窗口。<br>代码中定义了一些变量用于游戏状态的管理、游戏对象的维护等，包括窗口大小、游戏状态、时间计数、敌机数量、得分、等级、boos、道具数量等。GameWin 类实现了paint方法用于绘制游戏窗口的内容，具体的绘制根据游戏状态的不同而不同，分别绘制开始界面、游戏运行界面、游戏失败界面和游戏胜利界面。<br>游戏画面的绘制使用双缓存解决了画面闪烁问题。<br>createObject方法用于游戏中敌机、我方子弹、Boos、敌方子弹、道具、障碍的生成，并控制Boos血量低于百分之六十追踪发射子弹，低于百分之三十进入暴走状态，发射的子弹数量翻倍。<br>此外，代码中还定义了 reGame 方法用于初始化游戏状态和对象等，实现了游戏胜利或失败后能重新开始的功能。<br>游戏加入鼠标监听和键盘监听，实现在开始界面单击鼠标左键开始游戏，游戏进行中单击空格键暂停，再次单击空格键继续游戏。 </p>
-<h2 id="四、游戏父类"><a href="#四、游戏父类" class="headerlink" title="四、游戏父类"></a>四、游戏父类</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.awt.*;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">class</span> <span class="title class_">GameObject</span> &#123;</span><br><span class="line">    Image img;</span><br><span class="line">    <span class="type">int</span> x;</span><br><span class="line">    <span class="type">int</span> y;</span><br><span class="line">    <span class="type">int</span> width;</span><br><span class="line">    <span class="type">int</span> height;</span><br><span class="line">    <span class="type">double</span> speed;</span><br><span class="line">    GameWin frame;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">GameObject</span><span class="params">()</span> &#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">GameObject</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> y)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.x = x;</span><br><span class="line">        <span class="built_in">this</span>.y = y;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">GameObject</span><span class="params">(Image img, <span class="type">int</span> x, <span class="type">int</span> y, <span class="type">double</span> speed)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.img = img;</span><br><span class="line">        <span class="built_in">this</span>.x = x;</span><br><span class="line">        <span class="built_in">this</span>.y = y;</span><br><span class="line">        <span class="built_in">this</span>.speed = speed;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">GameObject</span><span class="params">(Image img, <span class="type">int</span> x, <span class="type">int</span> y, <span class="type">int</span> width, <span class="type">int</span> height, <span class="type">double</span> speed, GameWin frame)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.img = img;</span><br><span class="line">        <span class="built_in">this</span>.x = x;</span><br><span class="line">        <span class="built_in">this</span>.y = y;</span><br><span class="line">        <span class="built_in">this</span>.width = width;</span><br><span class="line">        <span class="built_in">this</span>.height = height;</span><br><span class="line">        <span class="built_in">this</span>.speed = speed;</span><br><span class="line">        <span class="built_in">this</span>.frame = frame;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> Image <span class="title function_">getImj</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> img;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setImj</span><span class="params">(Image imj)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.img = img;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getX</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> x;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setX</span><span class="params">(<span class="type">int</span> x)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.x = x;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getY</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> y;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setY</span><span class="params">(<span class="type">int</span> y)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.y = y;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getWidth</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> width;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setWidth</span><span class="params">(<span class="type">int</span> width)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.width = width;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getHeight</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> height;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setHeight</span><span class="params">(<span class="type">int</span> height)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.height = height;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">double</span> <span class="title function_">getSpeed</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> speed;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setSpeed</span><span class="params">(<span class="type">double</span> speed)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.speed = speed;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> GameWin <span class="title function_">getFrame</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> frame;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setFrame</span><span class="params">(GameWin frame)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.frame = frame;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span>  <span class="keyword">void</span> <span class="title function_">paintSelf</span><span class="params">(Graphics gImage)</span>&#123;</span><br><span class="line">        gImage.drawImage(img,x,y,<span class="literal">null</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> Rectangle <span class="title function_">getRec</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Rectangle</span>(x,y,width,height);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="四、游戏父类"><a href="#四、游戏父类" class="headerlink" title="四、游戏父类"></a>四、游戏父类</h2><pre><code class="java">import java.awt.*;
+public abstract class GameObject &#123;
+    Image img;
+    int x;
+    int y;
+    int width;
+    int height;
+    double speed;
+    GameWin frame;
+
+    public GameObject() &#123;
+    &#125;
+
+    public GameObject(int x, int y) &#123;
+        this.x = x;
+        this.y = y;
+    &#125;
+
+    public GameObject(Image img, int x, int y, double speed) &#123;
+        this.img = img;
+        this.x = x;
+        this.y = y;
+        this.speed = speed;
+    &#125;
+
+    public GameObject(Image img, int x, int y, int width, int height, double speed, GameWin frame) &#123;
+        this.img = img;
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.speed = speed;
+        this.frame = frame;
+    &#125;
+
+    public Image getImj() &#123;
+        return img;
+    &#125;
+
+    public void setImj(Image imj) &#123;
+        this.img = img;
+    &#125;
+
+    public int getX() &#123;
+        return x;
+    &#125;
+
+    public void setX(int x) &#123;
+        this.x = x;
+    &#125;
+
+    public int getY() &#123;
+        return y;
+    &#125;
+
+    public void setY(int y) &#123;
+        this.y = y;
+    &#125;
+
+    public int getWidth() &#123;
+        return width;
+    &#125;
+
+    public void setWidth(int width) &#123;
+        this.width = width;
+    &#125;
+
+    public int getHeight() &#123;
+        return height;
+    &#125;
+
+    public void setHeight(int height) &#123;
+        this.height = height;
+    &#125;
+
+    public double getSpeed() &#123;
+        return speed;
+    &#125;
+
+    public void setSpeed(double speed) &#123;
+        this.speed = speed;
+    &#125;
+
+    public GameWin getFrame() &#123;
+        return frame;
+    &#125;
+
+    public void setFrame(GameWin frame) &#123;
+        this.frame = frame;
+    &#125;
+
+    public  void paintSelf(Graphics gImage)&#123;
+        gImage.drawImage(img,x,y,null);
+    &#125;
+    public Rectangle getRec()&#123;
+        return new Rectangle(x,y,width,height);
+    &#125;
+&#125;
+</code></pre>
 <p>这是一个抽象类 GameObject，包含了游戏中所有物体共有的属性和方法，其他游戏物体类都应该继承自该类。</p>
 <p>该类包含的成员变量包括：</p>
 <ul>
@@ -210,19 +643,212 @@
 <li>void paintSelf(Graphics gImage)：绘制自身的方法</li>
 <li>Rectangle getRec()：获取物体的矩形边界对象</li>
 </ul>
-<h2 id="五、我方飞机类"><a href="#五、我方飞机类" class="headerlink" title="五、我方飞机类"></a>五、我方飞机类</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.awt.*;</span><br><span class="line"><span class="keyword">import</span> java.awt.event.MouseAdapter;</span><br><span class="line"><span class="keyword">import</span> java.awt.event.MouseEvent;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Plane</span> <span class="keyword">extends</span> <span class="title class_">Background</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">life</span> <span class="operator">=</span> <span class="number">30</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Plane</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Plane</span><span class="params">(Image img, <span class="type">int</span> x, <span class="type">int</span> y, <span class="type">int</span> width, <span class="type">int</span> height, <span class="type">double</span> speed, GameWin frame)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>(img, x, y, width, height, speed, frame);</span><br><span class="line">        <span class="built_in">this</span>.frame.addMouseMotionListener(<span class="keyword">new</span> <span class="title class_">MouseAdapter</span>() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">mouseMoved</span><span class="params">(MouseEvent e)</span> &#123;</span><br><span class="line">                Plane.<span class="built_in">super</span>.x = e.getX()-<span class="number">25</span>;</span><br><span class="line">                Plane.<span class="built_in">super</span>.y = e.getY()-<span class="number">25</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">paintSelf</span><span class="params">(Graphics gImage)</span> &#123;</span><br><span class="line">        gImage.drawImage(img,x-<span class="number">25</span>,y-<span class="number">25</span>,<span class="literal">null</span>);</span><br><span class="line">        <span class="comment">//我方飞机与敌方boos的碰撞检测</span></span><br><span class="line">        <span class="keyword">if</span>(<span class="built_in">this</span>.frame.boos!= <span class="literal">null</span> &amp;&amp; <span class="built_in">this</span>.getRec().intersects(<span class="built_in">this</span>.frame.boos.getRec()))&#123;</span><br><span class="line">            <span class="keyword">if</span>(<span class="built_in">this</span>.frame.invincible == <span class="number">0</span>) &#123;</span><br><span class="line">                life = <span class="number">0</span>;</span><br><span class="line">                GameWin.state = <span class="number">3</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(<span class="built_in">this</span>.frame.invincible==<span class="number">1</span>)&#123;</span><br><span class="line">            gImage.drawImage(GameUtils.guard,x-<span class="number">35</span>,y-<span class="number">35</span>,<span class="literal">null</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> Image <span class="title function_">getImj</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">super</span>.getImj();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> Rectangle <span class="title function_">getRec</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">super</span>.getRec();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="五、我方飞机类"><a href="#五、我方飞机类" class="headerlink" title="五、我方飞机类"></a>五、我方飞机类</h2><pre><code class="java">import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+public class Plane extends Background &#123;
+    int life = 30;
+    public Plane() &#123;
+        super();
+    &#125;
+
+    public Plane(Image img, int x, int y, int width, int height, double speed, GameWin frame) &#123;
+        super(img, x, y, width, height, speed, frame);
+        this.frame.addMouseMotionListener(new MouseAdapter() &#123;
+            @Override
+            public void mouseMoved(MouseEvent e) &#123;
+                Plane.super.x = e.getX()-25;
+                Plane.super.y = e.getY()-25;
+            &#125;
+        &#125;);
+    &#125;
+
+    @Override
+    public void paintSelf(Graphics gImage) &#123;
+        gImage.drawImage(img,x-25,y-25,null);
+        //我方飞机与敌方boos的碰撞检测
+        if(this.frame.boos!= null &amp;&amp; this.getRec().intersects(this.frame.boos.getRec()))&#123;
+            if(this.frame.invincible == 0) &#123;
+                life = 0;
+                GameWin.state = 3;
+            &#125;
+        &#125;
+        if(this.frame.invincible==1)&#123;
+            gImage.drawImage(GameUtils.guard,x-35,y-35,null);
+        &#125;
+    &#125;
+
+    @Override
+    public Image getImj() &#123;
+        return super.getImj();
+    &#125;
+
+    @Override
+    public Rectangle getRec() &#123;
+        return super.getRec();
+    &#125;
+&#125;
+
+</code></pre>
 <p>这部分的代码主要是飞机类Plane的实现，其中包含了鼠标移动事件的监听和碰撞检测。<br>在构造方法中，为Plane添加了鼠标移动事件的监听，使飞机能跟随鼠标移动，实现用鼠标操控飞机的移动。<br>在paintSelf方法中，绘制了飞机的图像，并进行了与boos飞机的碰撞检测。如果碰到Boos，则生命清零，游戏结束。<br>getImj方法和getRec方法都是调用父类Background的方法。</p>
-<h2 id="六、我方子弹类"><a href="#六、我方子弹类" class="headerlink" title="六、我方子弹类"></a>六、我方子弹类</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.awt.*;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Shell</span> <span class="keyword">extends</span> <span class="title class_">GameObject</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Shell</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Shell</span><span class="params">(Image img, <span class="type">int</span> x, <span class="type">int</span> y, <span class="type">int</span> width, <span class="type">int</span> height, <span class="type">double</span> speed, GameWin frame)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>(img, x, y, width, height, speed, frame);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> Image <span class="title function_">getImj</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">super</span>.getImj();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">paintSelf</span><span class="params">(Graphics gImage)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>.paintSelf(gImage);</span><br><span class="line">        y -= speed;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(y&lt;-<span class="number">200</span>)&#123;</span><br><span class="line">            <span class="built_in">this</span>.x = -<span class="number">100</span>;</span><br><span class="line">            <span class="built_in">this</span>.y = <span class="number">100</span>;</span><br><span class="line">            GameUtils.removeList.add(<span class="built_in">this</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> Rectangle <span class="title function_">getRec</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">super</span>.getRec();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="六、我方子弹类"><a href="#六、我方子弹类" class="headerlink" title="六、我方子弹类"></a>六、我方子弹类</h2><pre><code class="java">import java.awt.*;
+
+public class Shell extends GameObject &#123;
+    public Shell() &#123;
+        super();
+    &#125;
+
+    public Shell(Image img, int x, int y, int width, int height, double speed, GameWin frame) &#123;
+        super(img, x, y, width, height, speed, frame);
+    &#125;
+
+    @Override
+    public Image getImj() &#123;
+        return super.getImj();
+    &#125;
+
+    @Override
+    public void paintSelf(Graphics gImage) &#123;
+        super.paintSelf(gImage);
+        y -= speed;
+
+        if(y&lt;-200)&#123;
+            this.x = -100;
+            this.y = 100;
+            GameUtils.removeList.add(this);
+        &#125;
+    &#125;
+
+    @Override
+    public Rectangle getRec() &#123;
+        return super.getRec();
+    &#125;
+&#125;
+
+</code></pre>
 <p>在这段代码是Shell类，它是GameObject的一个子类，该类表示我方子弹。</p>
 <p>该类继承父类GameWin的成员变量，调用父类的构造方法，同时重写了父类paintSelf(Graphics gImage)方法，绘制子弹的图片，并使子弹沿Y轴移动，并判断当子弹超出游戏窗口时，将其从游戏窗口中移除。</p>
 <p>这个类的主要作用是通过重写paintSelf(Graphics gImage)方法控制子弹的运动和销毁，实现了子弹的移动，如果子弹移出游戏窗口，则将其从游戏中移除，避免资源浪费。</p>
-<h2 id="七、敌方飞机类"><a href="#七、敌方飞机类" class="headerlink" title="七、敌方飞机类"></a>七、敌方飞机类</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.awt.*;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Enemy</span> <span class="keyword">extends</span> <span class="title class_">GameObject</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Enemy</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Enemy</span><span class="params">(Image img, <span class="type">int</span> x, <span class="type">int</span> y, <span class="type">int</span> width, <span class="type">int</span> height, <span class="type">double</span> speed, GameWin frame)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>(img, x, y, width, height, speed, frame);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">paintSelf</span><span class="params">(Graphics gImage)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>.paintSelf(gImage);</span><br><span class="line">        y += speed;</span><br><span class="line">        <span class="comment">//敌我飞机碰撞检测</span></span><br><span class="line">        <span class="keyword">if</span>(<span class="built_in">this</span>.getRec().intersects(<span class="built_in">this</span>.frame.planeObj.getRec()))&#123;</span><br><span class="line">            <span class="keyword">if</span>(<span class="built_in">this</span>.frame.planeObj.life &gt; <span class="number">1</span>)&#123;</span><br><span class="line">                <span class="keyword">if</span>(<span class="built_in">this</span>.frame.invincible == <span class="number">0</span>) &#123;</span><br><span class="line">                    <span class="built_in">this</span>.frame.planeObj.life--;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="type">Explode</span> <span class="variable">explode</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Explode</span>(x+<span class="number">5</span>,y);</span><br><span class="line">                GameUtils.explodeList.add(explode);</span><br><span class="line">                GameUtils.removeList.add(explode);</span><br><span class="line">                <span class="built_in">this</span>.x = -<span class="number">200</span>;</span><br><span class="line">                <span class="built_in">this</span>.y = <span class="number">200</span>;</span><br><span class="line">                GameUtils.removeList.add(<span class="built_in">this</span>);</span><br><span class="line">            &#125;<span class="keyword">else</span></span><br><span class="line">                GameWin.state = <span class="number">3</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(y&gt; frame.HEIGHT)&#123;</span><br><span class="line">            <span class="built_in">this</span>.x = -<span class="number">100</span>;</span><br><span class="line">            <span class="built_in">this</span>.y = <span class="number">100</span>;</span><br><span class="line">            GameUtils.removeList.add(<span class="built_in">this</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(Shell shellObj:GameUtils.shellObjList)&#123;</span><br><span class="line">            <span class="keyword">if</span>(<span class="built_in">this</span>.getRec().intersects(shellObj.getRec()))&#123;</span><br><span class="line">                <span class="type">Explode</span> <span class="variable">explode</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Explode</span>(x+<span class="number">5</span>,y);</span><br><span class="line">                GameUtils.explodeList.add(explode);</span><br><span class="line">                GameUtils.removeList.add(explode);</span><br><span class="line">                shellObj.setX(-<span class="number">100</span>);</span><br><span class="line">                shellObj.setY(<span class="number">100</span>);</span><br><span class="line">                <span class="built_in">this</span>.x = -<span class="number">200</span>;</span><br><span class="line">                <span class="built_in">this</span>.y = <span class="number">200</span>;</span><br><span class="line">                GameUtils.removeList.add(shellObj);</span><br><span class="line">                GameUtils.enemyObjList.add(<span class="built_in">this</span>);</span><br><span class="line">                GameWin.score++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> Rectangle <span class="title function_">getRec</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">super</span>.getRec();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="七、敌方飞机类"><a href="#七、敌方飞机类" class="headerlink" title="七、敌方飞机类"></a>七、敌方飞机类</h2><pre><code class="java">import java.awt.*;
+
+public class Enemy extends GameObject &#123;
+    public Enemy() &#123;
+        super();
+    &#125;
+
+    public Enemy(Image img, int x, int y, int width, int height, double speed, GameWin frame) &#123;
+        super(img, x, y, width, height, speed, frame);
+    &#125;
+
+    @Override
+    public void paintSelf(Graphics gImage) &#123;
+        super.paintSelf(gImage);
+        y += speed;
+        //敌我飞机碰撞检测
+        if(this.getRec().intersects(this.frame.planeObj.getRec()))&#123;
+            if(this.frame.planeObj.life &gt; 1)&#123;
+                if(this.frame.invincible == 0) &#123;
+                    this.frame.planeObj.life--;
+                &#125;
+                Explode explode = new Explode(x+5,y);
+                GameUtils.explodeList.add(explode);
+                GameUtils.removeList.add(explode);
+                this.x = -200;
+                this.y = 200;
+                GameUtils.removeList.add(this);
+            &#125;else
+                GameWin.state = 3;
+        &#125;
+        if(y&gt; frame.HEIGHT)&#123;
+            this.x = -100;
+            this.y = 100;
+            GameUtils.removeList.add(this);
+        &#125;
+        for(Shell shellObj:GameUtils.shellObjList)&#123;
+            if(this.getRec().intersects(shellObj.getRec()))&#123;
+                Explode explode = new Explode(x+5,y);
+                GameUtils.explodeList.add(explode);
+                GameUtils.removeList.add(explode);
+                shellObj.setX(-100);
+                shellObj.setY(100);
+                this.x = -200;
+                this.y = 200;
+                GameUtils.removeList.add(shellObj);
+                GameUtils.enemyObjList.add(this);
+                GameWin.score++;
+            &#125;
+        &#125;
+    &#125;
+
+    @Override
+    public Rectangle getRec() &#123;
+        return super.getRec();
+    &#125;
+&#125;
+
+</code></pre>
 <p>在这段代码中定义了一个 Enemy 类，表示游戏中的敌机对象，这个类继承自 GameObject 类。</p>
 <p>在 paintSelf(Graphics gImage) 方法中，我们先将敌机对象沿 y 轴方向以速度 speed 移动。如果敌机对象与我方飞机对象相撞，则判断我方飞机对象的生命值是否大于1。如果是，则扣除生命值，生成一个爆炸对象，将敌机对象和爆炸对象加入删除列表中，此时画面中会出现爆炸动画效果。如果生命值不大于1，游戏状态变为游戏失败。</p>
 <p>接着，我们判断敌机对象是否超出窗口的下边缘。如果超出，则将敌机对象移出屏幕，并将其加入删除列表中。</p>
 <p>最后，我们检查敌机对象是否与所有炮弹对象相撞。相撞后击毁敌机，将敌机对象生成一个爆炸对象，将敌机对象和炸弹对象加入删除列表中。击毁敌机增加游戏得分。</p>
 <p>Enemy 类的实现涉及到了游戏的碰撞检测、删除对象等核心逻辑，这些逻辑是实现游戏的重要组成部分。</p>
-<h2 id="八、敌方Boos类"><a href="#八、敌方Boos类" class="headerlink" title="八、敌方Boos类"></a>八、敌方Boos类</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.awt.*;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Boos</span> <span class="keyword">extends</span> <span class="title class_">GameObject</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">life</span> <span class="operator">=</span> <span class="number">300</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Boos</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Boos</span><span class="params">(Image img, <span class="type">int</span> x, <span class="type">int</span> y, <span class="type">int</span> width, <span class="type">int</span> height, <span class="type">double</span> speed, GameWin frame)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>(img, x, y, width, height, speed, frame);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">paintSelf</span><span class="params">(Graphics gImage)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>.paintSelf(gImage);</span><br><span class="line">        <span class="keyword">if</span>(x &gt; <span class="number">450</span> || x &lt; -<span class="number">50</span>)&#123;</span><br><span class="line">            speed = -speed;</span><br><span class="line">        &#125;</span><br><span class="line">        x += speed;</span><br><span class="line">        <span class="keyword">for</span>(Shell shellObj:GameUtils.shellObjList)&#123;</span><br><span class="line">            <span class="keyword">if</span>(<span class="built_in">this</span>.getRec().intersects(shellObj.getRec()))&#123;</span><br><span class="line">                shellObj.setX(-<span class="number">100</span>);</span><br><span class="line">                shellObj.setY(<span class="number">100</span>);</span><br><span class="line">                GameUtils.removeList.add(shellObj);</span><br><span class="line">                life--;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(life &lt;= <span class="number">0</span>)&#123;</span><br><span class="line">                GameWin.state = <span class="number">4</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//血条</span></span><br><span class="line">        <span class="keyword">if</span>(life&gt;<span class="number">200</span>)&#123;</span><br><span class="line">            gImage.setColor(Color.yellow);</span><br><span class="line">            gImage.fillRect(x-<span class="number">50</span>,y+<span class="number">130</span>,<span class="number">300</span>,<span class="number">5</span>);</span><br><span class="line">            gImage.setColor(Color.green);</span><br><span class="line">            gImage.fillRect(x-<span class="number">50</span>,y+<span class="number">130</span>,(life-<span class="number">200</span>)*<span class="number">3</span>,<span class="number">5</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (life &gt; <span class="number">100</span>) &#123;</span><br><span class="line">            gImage.setColor(Color.red);</span><br><span class="line">            gImage.fillRect(x-<span class="number">50</span>,y+<span class="number">130</span>,<span class="number">300</span>,<span class="number">5</span>);</span><br><span class="line">            gImage.setColor(Color.yellow);</span><br><span class="line">            gImage.fillRect(x-<span class="number">50</span>,y+<span class="number">130</span>,(life-<span class="number">100</span>)*<span class="number">3</span>,<span class="number">5</span>);</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            gImage.setColor(Color.white);</span><br><span class="line">            gImage.fillRect(x-<span class="number">50</span>,y+<span class="number">130</span>,<span class="number">300</span>,<span class="number">5</span>);</span><br><span class="line">            gImage.setColor(Color.red);</span><br><span class="line">            gImage.fillRect(x-<span class="number">50</span>,y+<span class="number">130</span>,life*<span class="number">3</span>,<span class="number">5</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> Rectangle <span class="title function_">getRec</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">super</span>.getRec();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="八、敌方Boos类"><a href="#八、敌方Boos类" class="headerlink" title="八、敌方Boos类"></a>八、敌方Boos类</h2><pre><code class="java">import java.awt.*;
+
+public class Boos extends GameObject &#123;
+    int life = 300;
+    public Boos() &#123;
+        super();
+    &#125;
+
+    public Boos(Image img, int x, int y, int width, int height, double speed, GameWin frame) &#123;
+        super(img, x, y, width, height, speed, frame);
+    &#125;
+
+    @Override
+    public void paintSelf(Graphics gImage) &#123;
+        super.paintSelf(gImage);
+        if(x &gt; 450 || x &lt; -50)&#123;
+            speed = -speed;
+        &#125;
+        x += speed;
+        for(Shell shellObj:GameUtils.shellObjList)&#123;
+            if(this.getRec().intersects(shellObj.getRec()))&#123;
+                shellObj.setX(-100);
+                shellObj.setY(100);
+                GameUtils.removeList.add(shellObj);
+                life--;
+            &#125;
+            if(life &lt;= 0)&#123;
+                GameWin.state = 4;
+            &#125;
+        &#125;
+        //血条
+        if(life&gt;200)&#123;
+            gImage.setColor(Color.yellow);
+            gImage.fillRect(x-50,y+130,300,5);
+            gImage.setColor(Color.green);
+            gImage.fillRect(x-50,y+130,(life-200)*3,5);
+        &#125; else if (life &gt; 100) &#123;
+            gImage.setColor(Color.red);
+            gImage.fillRect(x-50,y+130,300,5);
+            gImage.setColor(Color.yellow);
+            gImage.fillRect(x-50,y+130,(life-100)*3,5);
+        &#125;else&#123;
+            gImage.setColor(Color.white);
+            gImage.fillRect(x-50,y+130,300,5);
+            gImage.setColor(Color.red);
+            gImage.fillRect(x-50,y+130,life*3,5);
+        &#125;
+    &#125;
+
+    @Override
+    public Rectangle getRec() &#123;
+        return super.getRec();
+    &#125;
+&#125;
+
+</code></pre>
 <p>这段代码是一个 Boos 类，继承自 GameObject 类。这个类代表了游戏中的一个 Boss 角色，具有生命值、移动速度等属性。以下是Boos类包含的属性和方法：</p>
 <p>增加成员变量：</p>
 <ul>
@@ -237,29 +863,364 @@
 <li>如果Boss的生命值小于等于0，将游戏状态修改为失败状态(state&#x3D;4)。</li>
 <li>绘制Boss的血条。血条由两个矩形组成，一个白色矩形表示总血量，一个红色矩形表示当前血量。</li>
 </ol>
-<h2 id="九、敌方子弹类"><a href="#九、敌方子弹类" class="headerlink" title="九、敌方子弹类"></a>九、敌方子弹类</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.awt.*;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">EnemyBullet</span> <span class="keyword">extends</span> <span class="title class_">GameObject</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">EnemyBullet</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> z;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> speed2;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> k;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> b;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">EnemyBullet</span><span class="params">(Image img, <span class="type">int</span> x, <span class="type">int</span> y, <span class="type">int</span> width, <span class="type">int</span> height, <span class="type">double</span> speed,<span class="type">int</span> z,<span class="type">int</span> speed2,<span class="type">int</span> k,<span class="type">int</span> b,GameWin frame)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.img = img;</span><br><span class="line">        <span class="built_in">this</span>.x = x;</span><br><span class="line">        <span class="built_in">this</span>.y = y;</span><br><span class="line">        <span class="built_in">this</span>.width = width;</span><br><span class="line">        <span class="built_in">this</span>.height = height;</span><br><span class="line">        <span class="built_in">this</span>.speed = speed;</span><br><span class="line">        <span class="built_in">this</span>.frame = frame;</span><br><span class="line">        <span class="built_in">this</span>.z = z;</span><br><span class="line">        <span class="built_in">this</span>.speed2 = speed2;</span><br><span class="line">        <span class="built_in">this</span>.k = k;</span><br><span class="line">        <span class="built_in">this</span>.b = b;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">paintSelf</span><span class="params">(Graphics gImage)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>.paintSelf(gImage);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(<span class="built_in">this</span>.frame.boos.life &gt; <span class="number">200</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span>(z == <span class="number">1</span>)</span><br><span class="line">                x += speed2;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(z == <span class="number">2</span>)</span><br><span class="line">                x -= speed2;</span><br><span class="line">            y += speed;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(<span class="built_in">this</span>.frame.boos.life &gt; <span class="number">100</span>)&#123;</span><br><span class="line">            y += <span class="number">15</span>;</span><br><span class="line">            <span class="keyword">if</span>(k != <span class="number">0</span>)</span><br><span class="line">                x = (y-b)/k;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">if</span>(z == <span class="number">1</span>)</span><br><span class="line">                x += speed2;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(z == <span class="number">2</span>)</span><br><span class="line">                x -= speed2;</span><br><span class="line">            y += speed;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="comment">//碰撞检测</span></span><br><span class="line">        <span class="keyword">if</span>(<span class="built_in">this</span>.getRec().intersects(<span class="built_in">this</span>.frame.planeObj.getRec()))&#123;</span><br><span class="line">            <span class="keyword">if</span>(<span class="built_in">this</span>.frame.planeObj.life &gt;<span class="number">1</span>)&#123;</span><br><span class="line">                <span class="keyword">if</span>(<span class="built_in">this</span>.frame.invincible == <span class="number">0</span>) &#123;</span><br><span class="line">                    <span class="built_in">this</span>.frame.planeObj.life--;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="built_in">this</span>.x = -<span class="number">100</span>;</span><br><span class="line">                <span class="built_in">this</span>.y = <span class="number">100</span>;</span><br><span class="line">                GameUtils.removeList.add(<span class="built_in">this</span>);</span><br><span class="line">            &#125;<span class="keyword">else</span></span><br><span class="line">                GameWin.state = <span class="number">3</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(y &gt; frame.HEIGHT)&#123;</span><br><span class="line">            <span class="built_in">this</span>.x = -<span class="number">100</span>;</span><br><span class="line">            <span class="built_in">this</span>.y = <span class="number">100</span>;</span><br><span class="line">            GameUtils.removeList.add(<span class="built_in">this</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> Rectangle <span class="title function_">getRec</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">super</span>.getRec();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="九、敌方子弹类"><a href="#九、敌方子弹类" class="headerlink" title="九、敌方子弹类"></a>九、敌方子弹类</h2><pre><code class="java">import java.awt.*;
+
+public class EnemyBullet extends GameObject &#123;
+    public EnemyBullet() &#123;
+        super();
+    &#125;
+    private int z;
+    private int speed2;
+    private int k;
+    private int b;
+    public EnemyBullet(Image img, int x, int y, int width, int height, double speed,int z,int speed2,int k,int b,GameWin frame) &#123;
+        this.img = img;
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.speed = speed;
+        this.frame = frame;
+        this.z = z;
+        this.speed2 = speed2;
+        this.k = k;
+        this.b = b;
+    &#125;
+
+    @Override
+    public void paintSelf(Graphics gImage) &#123;
+        super.paintSelf(gImage);
+
+
+        if(this.frame.boos.life &gt; 200) &#123;
+            if(z == 1)
+                x += speed2;
+            else if(z == 2)
+                x -= speed2;
+            y += speed;
+        &#125;
+        else if(this.frame.boos.life &gt; 100)&#123;
+            y += 15;
+            if(k != 0)
+                x = (y-b)/k;
+        &#125;
+        else&#123;
+            if(z == 1)
+                x += speed2;
+            else if(z == 2)
+                x -= speed2;
+            y += speed;
+        &#125;
+
+
+        //碰撞检测
+        if(this.getRec().intersects(this.frame.planeObj.getRec()))&#123;
+            if(this.frame.planeObj.life &gt;1)&#123;
+                if(this.frame.invincible == 0) &#123;
+                    this.frame.planeObj.life--;
+                &#125;
+                this.x = -100;
+                this.y = 100;
+                GameUtils.removeList.add(this);
+            &#125;else
+                GameWin.state = 3;
+        &#125;
+        if(y &gt; frame.HEIGHT)&#123;
+            this.x = -100;
+            this.y = 100;
+            GameUtils.removeList.add(this);
+        &#125;
+    &#125;
+
+    @Override
+    public Rectangle getRec() &#123;
+        return super.getRec();
+    &#125;
+&#125;
+
+</code></pre>
 <p>这是一个控制敌人子弹的类，实现子弹的运动规律和碰撞检测。</p>
 <p>在这个类中，z参数表示子弹的水平方向运动方式，1表示向右，2表示向左。speed2表示子弹的水平方向运动速度。</p>
 <p>k和b是子弹运动的一条直线的参数，可以表示为y &#x3D; kx + b，用于控制敌人子弹在boos的生命值小于30时运动轨迹，此时Boos追踪发射子弹。</p>
-<h2 id="十、爆炸类"><a href="#十、爆炸类" class="headerlink" title="十、爆炸类"></a>十、爆炸类</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.awt.*;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Explode</span> <span class="keyword">extends</span> <span class="title class_">GameObject</span>&#123;</span><br><span class="line">    <span class="keyword">static</span>  Image[] picture = <span class="keyword">new</span> <span class="title class_">Image</span>[<span class="number">16</span>];</span><br><span class="line">    <span class="type">int</span> <span class="variable">explodeCount</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">static</span>&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>;i&lt;picture.length;i++)&#123;</span><br><span class="line">            picture[i] = Toolkit.getDefaultToolkit().getImage(<span class="string">&quot;C:\\Users\\ASUS\\javaworkspace\\untitled\\AircraftBattle\\src\\Images\\e&quot;</span>+(i+<span class="number">1</span>)+<span class="string">&quot;.gif&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Explode</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> y)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>(x, y);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">paintSelf</span><span class="params">(Graphics gImage)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>.paintSelf(gImage);</span><br><span class="line">        <span class="keyword">if</span> (explodeCount &lt; <span class="number">16</span>)&#123;</span><br><span class="line">            img = picture[explodeCount];</span><br><span class="line">            <span class="built_in">super</span>.paintSelf(gImage);</span><br><span class="line">            explodeCount++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 每一次绘制不会消失，下一次repaint方法再次调用重绘，知道爆炸图片绘制完</span></span><br><span class="line">        <span class="keyword">if</span>(explodeCount == <span class="number">16</span>) &#123;</span><br><span class="line">            GameUtils.explodeList.remove(<span class="built_in">this</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="十、爆炸类"><a href="#十、爆炸类" class="headerlink" title="十、爆炸类"></a>十、爆炸类</h2><pre><code class="java">import java.awt.*;
+
+public class Explode extends GameObject&#123;
+    static  Image[] picture = new Image[16];
+    int explodeCount = 0;
+    static&#123;
+        for(int i = 0;i&lt;picture.length;i++)&#123;
+            picture[i] = Toolkit.getDefaultToolkit().getImage(&quot;C:\\Users\\ASUS\\javaworkspace\\untitled\\AircraftBattle\\src\\Images\\e&quot;+(i+1)+&quot;.gif&quot;);
+        &#125;
+    &#125;
+    public Explode(int x, int y) &#123;
+        super(x, y);
+    &#125;
+
+    @Override
+    public void paintSelf(Graphics gImage) &#123;
+        super.paintSelf(gImage);
+        if (explodeCount &lt; 16)&#123;
+            img = picture[explodeCount];
+            super.paintSelf(gImage);
+            explodeCount++;
+        &#125;
+        // 每一次绘制不会消失，下一次repaint方法再次调用重绘，知道爆炸图片绘制完
+        if(explodeCount == 16) &#123;
+            GameUtils.explodeList.remove(this);
+        &#125;
+    &#125;
+&#125;
+</code></pre>
 <p>Explode类用于处理游戏中的爆炸效果。在游戏中，当敌方飞机被击中时，我们需要显示爆炸效果，这就需要使用到Explode类。</p>
 <p>静态代码块用于获取爆炸图片资源，在类加载器中仅执行一次。</p>
 <p>Explode类的paintSelf方法中，我们需要根据参数explodeCount来选择显示哪一张爆炸图片，达到爆炸动画的效果。</p>
-<h2 id="十一、道具类"><a href="#十一、道具类" class="headerlink" title="十一、道具类"></a>十一、道具类</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.awt.*;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Props</span> <span class="keyword">extends</span> <span class="title class_">GameObject</span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Props</span><span class="params">()</span> &#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Props</span><span class="params">(Image img, String name,<span class="type">int</span> x, <span class="type">int</span> y, <span class="type">int</span> width, <span class="type">int</span> height, <span class="type">double</span> speed, GameWin frame)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>(img, x, y, width, height, speed, frame);</span><br><span class="line">        <span class="built_in">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">paintSelf</span><span class="params">(Graphics gImage)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>.paintSelf(gImage);</span><br><span class="line">        y+=speed;</span><br><span class="line">        <span class="keyword">if</span>(<span class="built_in">this</span>.getRec().intersects(<span class="built_in">this</span>.frame.planeObj.getRec()))&#123;</span><br><span class="line">            <span class="keyword">if</span>(name.equals(<span class="string">&quot;level&quot;</span>)) &#123;</span><br><span class="line">                GameWin.level += <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(name.equals(<span class="string">&quot;life&quot;</span>) &amp;&amp; <span class="built_in">this</span>.frame.planeObj.life &lt; <span class="number">30</span>) &#123;</span><br><span class="line">                <span class="keyword">if</span>(<span class="built_in">this</span>.frame.planeObj.life &gt;= <span class="number">24</span>)</span><br><span class="line">                    <span class="built_in">this</span>.frame.planeObj.life = <span class="number">30</span>;</span><br><span class="line">                <span class="keyword">else</span></span><br><span class="line">                    <span class="built_in">this</span>.frame.planeObj.life += <span class="number">6</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            GameUtils.removeList.add(<span class="built_in">this</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> Rectangle <span class="title function_">getRec</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">super</span>.getRec();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="十一、道具类"><a href="#十一、道具类" class="headerlink" title="十一、道具类"></a>十一、道具类</h2><pre><code class="java">import java.awt.*;
+
+public class Props extends GameObject&#123;
+    private String name;
+    public Props() &#123;
+    &#125;
+
+    public Props(Image img, String name,int x, int y, int width, int height, double speed, GameWin frame) &#123;
+        super(img, x, y, width, height, speed, frame);
+        this.name = name;
+    &#125;
+
+    @Override
+    public void paintSelf(Graphics gImage) &#123;
+        super.paintSelf(gImage);
+        y+=speed;
+        if(this.getRec().intersects(this.frame.planeObj.getRec()))&#123;
+            if(name.equals(&quot;level&quot;)) &#123;
+                GameWin.level += 1;
+            &#125;
+            if(name.equals(&quot;life&quot;) &amp;&amp; this.frame.planeObj.life &lt; 30) &#123;
+                if(this.frame.planeObj.life &gt;= 24)
+                    this.frame.planeObj.life = 30;
+                else
+                    this.frame.planeObj.life += 6;
+            &#125;
+
+            GameUtils.removeList.add(this);
+        &#125;
+    &#125;
+
+    @Override
+    public Rectangle getRec() &#123;
+        return super.getRec();
+    &#125;
+&#125;
+
+</code></pre>
 <p>Props类实现了两种游戏道具，分别是升级道具和生命回复道具，增加了游戏的趣味性。<br>在paintSelf方法中，通过传入的字符串判断是升级道具还是生命回复道具，并进行碰撞检测来判断我方飞机是否吃到道具。<br>我方飞机吃到升级道具后等级加1，吃到生命回复道具时，如果生命值不满，则回复6点生命。</p>
-<h2 id="十二、游戏工具类"><a href="#十二、游戏工具类" class="headerlink" title="十二、游戏工具类"></a>十二、游戏工具类</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.awt.*;</span><br><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">GameUtils</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">String</span> <span class="variable">s</span> <span class="operator">=</span> <span class="string">&quot;untitled\\AircraftBattle\\src\\Images\\&quot;</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">Image</span> <span class="variable">background</span> <span class="operator">=</span> Toolkit.getDefaultToolkit().getImage(</span><br><span class="line">            s + <span class="string">&quot;background.jpg&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">Image</span> <span class="variable">background2</span> <span class="operator">=</span> Toolkit.getDefaultToolkit().getImage(</span><br><span class="line">            s +<span class="string">&quot;background2.jpg&quot;</span>);</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">Image</span> <span class="variable">boos</span> <span class="operator">=</span> Toolkit.getDefaultToolkit().getImage(</span><br><span class="line">            s +<span class="string">&quot;boos.png&quot;</span>);</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">Image</span> <span class="variable">ExplodeBig</span> <span class="operator">=</span> Toolkit.getDefaultToolkit().getImage(</span><br><span class="line">            s +<span class="string">&quot;ExplodeBig.png&quot;</span>);</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">Image</span> <span class="variable">ExplodeSmall</span> <span class="operator">=</span> Toolkit.getDefaultToolkit().getImage(</span><br><span class="line">            s +<span class="string">&quot;ExplodeSmall.png&quot;</span>);</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">Image</span> <span class="variable">red</span> <span class="operator">=</span> Toolkit.getDefaultToolkit().getImage(</span><br><span class="line">            s +<span class="string">&quot;red.png&quot;</span>);</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">Image</span> <span class="variable">shell</span> <span class="operator">=</span> Toolkit.getDefaultToolkit().getImage(</span><br><span class="line">            s +<span class="string">&quot;shell.png&quot;</span>);</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">Image</span> <span class="variable">enemyPlane</span> <span class="operator">=</span> Toolkit.getDefaultToolkit().getImage(</span><br><span class="line">            s +<span class="string">&quot;enemyPlane.png&quot;</span>);</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">Image</span> <span class="variable">enemyShell</span> <span class="operator">=</span> Toolkit.getDefaultToolkit().getImage(</span><br><span class="line">            s +<span class="string">&quot;enemyShell.png&quot;</span>);</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">Image</span> <span class="variable">heart</span> <span class="operator">=</span> Toolkit.getDefaultToolkit().getImage(</span><br><span class="line">            s +<span class="string">&quot;heart.png&quot;</span>);</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">Image</span> <span class="variable">heart2</span> <span class="operator">=</span> Toolkit.getDefaultToolkit().getImage(</span><br><span class="line">            s +<span class="string">&quot;heart2.png&quot;</span>);</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">Image</span> <span class="variable">title</span> <span class="operator">=</span> Toolkit.getDefaultToolkit().getImage(</span><br><span class="line">            s +<span class="string">&quot;title.png&quot;</span>);</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">Image</span> <span class="variable">level</span> <span class="operator">=</span> Toolkit.getDefaultToolkit().getImage(</span><br><span class="line">            s +<span class="string">&quot;level.png&quot;</span>);</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">Image</span> <span class="variable">barrier1</span> <span class="operator">=</span> Toolkit.getDefaultToolkit().getImage(</span><br><span class="line">            s +<span class="string">&quot;barrier1.png&quot;</span>);</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">Image</span> <span class="variable">barrier2</span> <span class="operator">=</span> Toolkit.getDefaultToolkit().getImage(</span><br><span class="line">            s +<span class="string">&quot;barrier2.png&quot;</span>);</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">Image</span> <span class="variable">guard</span> <span class="operator">=</span> Toolkit.getDefaultToolkit().getImage(</span><br><span class="line">            s +<span class="string">&quot;guard.png&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> List&lt;GameObject&gt; gameObjectList = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">    <span class="comment">//我方子弹的集合</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> List&lt;Shell&gt; shellObjList = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">    <span class="comment">//敌机的集合</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> List&lt;Enemy&gt; enemyObjList = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">    <span class="comment">//要删除元素的集合</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> List&lt;GameObject&gt; removeList = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">    <span class="comment">//敌方子弹集合</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> List&lt;EnemyBullet&gt; enemyShellList = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">    <span class="comment">//</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> List&lt;Explode&gt; explodeList = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">drawWord</span><span class="params">(Graphics gImage,String str,Color color,<span class="type">int</span> size,<span class="type">int</span> x,<span class="type">int</span> y)</span>&#123;</span><br><span class="line">        gImage.setColor(color);</span><br><span class="line">        gImage.setFont(<span class="keyword">new</span> <span class="title class_">Font</span>(<span class="string">&quot;黑体&quot;</span>,Font.BOLD,size));</span><br><span class="line">        gImage.drawString(str,x,y);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span>  <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">heartShow</span><span class="params">(Graphics gImage,<span class="type">int</span> life,GameWin frame)</span>&#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">height</span> <span class="operator">=</span> <span class="number">35</span>,width = <span class="number">20</span>,cha = <span class="number">2</span>;</span><br><span class="line">        gImage.setColor(Color.white);</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; <span class="number">15</span>; i++) &#123;</span><br><span class="line">            gImage.fillRect(width*i+<span class="number">5</span>,<span class="number">750</span>+cha*i,width,height-cha*i);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">int</span>[][] rgb = &#123;&#123;<span class="number">17</span>,<span class="number">255</span>,<span class="number">0</span>&#125;,&#123;<span class="number">33</span>,<span class="number">238</span>,<span class="number">0</span>&#125;,&#123;<span class="number">49</span>,<span class="number">221</span>,<span class="number">0</span>&#125;,&#123;<span class="number">65</span>,<span class="number">204</span>,<span class="number">0</span>&#125;,</span><br><span class="line">                       &#123;<span class="number">80</span>,<span class="number">187</span>,<span class="number">0</span>&#125;,&#123;<span class="number">96</span>,<span class="number">170</span>,<span class="number">0</span>&#125;,&#123;<span class="number">112</span>,<span class="number">153</span>,<span class="number">0</span>&#125;,&#123;<span class="number">128</span>,<span class="number">136</span>,<span class="number">0</span>&#125;,</span><br><span class="line">                       &#123;<span class="number">144</span>,<span class="number">119</span>,<span class="number">0</span>&#125;,&#123;<span class="number">160</span>,<span class="number">102</span>,<span class="number">0</span>&#125;,&#123;<span class="number">176</span>,<span class="number">85</span>,<span class="number">0</span>&#125;,&#123;<span class="number">192</span>,<span class="number">68</span>,<span class="number">0</span>&#125;,</span><br><span class="line">                       &#123;<span class="number">207</span>,<span class="number">51</span>,<span class="number">0</span>&#125;,&#123;<span class="number">223</span>,<span class="number">34</span>,<span class="number">0</span>&#125;,&#123;<span class="number">255</span>,<span class="number">0</span>,<span class="number">0</span>&#125;&#125;;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; <span class="number">15</span>; i++) &#123;</span><br><span class="line">            gImage.setColor(<span class="keyword">new</span> <span class="title class_">Color</span>(rgb[i][<span class="number">0</span>],rgb[i][<span class="number">1</span>],rgb[i][<span class="number">2</span>]));</span><br><span class="line">            <span class="keyword">if</span>(frame.planeObj.life&gt;=<span class="number">15</span>*<span class="number">2</span>-<span class="number">2</span>*i)</span><br><span class="line">                gImage.fillRect(width*i+<span class="number">5</span>,<span class="number">750</span>+cha*i,width/<span class="number">2</span>,height-cha*i);</span><br><span class="line">            <span class="keyword">if</span>(frame.planeObj.life&gt;=<span class="number">15</span>*<span class="number">2</span>-<span class="number">2</span>*i-<span class="number">1</span>)</span><br><span class="line">                gImage.fillRect(width*i+<span class="number">5</span>+width/<span class="number">2</span>,<span class="number">750</span>+cha*i,width/<span class="number">2</span>,height-cha*i);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="十二、游戏工具类"><a href="#十二、游戏工具类" class="headerlink" title="十二、游戏工具类"></a>十二、游戏工具类</h2><pre><code class="java">import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
+
+public class GameUtils &#123;
+    public static String s = &quot;untitled\\AircraftBattle\\src\\Images\\&quot;;
+    public static Image background = Toolkit.getDefaultToolkit().getImage(
+            s + &quot;background.jpg&quot;);
+
+    public static Image background2 = Toolkit.getDefaultToolkit().getImage(
+            s +&quot;background2.jpg&quot;);
+    public static Image boos = Toolkit.getDefaultToolkit().getImage(
+            s +&quot;boos.png&quot;);
+    public static Image ExplodeBig = Toolkit.getDefaultToolkit().getImage(
+            s +&quot;ExplodeBig.png&quot;);
+    public static Image ExplodeSmall = Toolkit.getDefaultToolkit().getImage(
+            s +&quot;ExplodeSmall.png&quot;);
+    public static Image red = Toolkit.getDefaultToolkit().getImage(
+            s +&quot;red.png&quot;);
+    public static Image shell = Toolkit.getDefaultToolkit().getImage(
+            s +&quot;shell.png&quot;);
+    public static Image enemyPlane = Toolkit.getDefaultToolkit().getImage(
+            s +&quot;enemyPlane.png&quot;);
+    public static Image enemyShell = Toolkit.getDefaultToolkit().getImage(
+            s +&quot;enemyShell.png&quot;);
+    public static Image heart = Toolkit.getDefaultToolkit().getImage(
+            s +&quot;heart.png&quot;);
+    public static Image heart2 = Toolkit.getDefaultToolkit().getImage(
+            s +&quot;heart2.png&quot;);
+    public static Image title = Toolkit.getDefaultToolkit().getImage(
+            s +&quot;title.png&quot;);
+    public static Image level = Toolkit.getDefaultToolkit().getImage(
+            s +&quot;level.png&quot;);
+    public static Image barrier1 = Toolkit.getDefaultToolkit().getImage(
+            s +&quot;barrier1.png&quot;);
+    public static Image barrier2 = Toolkit.getDefaultToolkit().getImage(
+            s +&quot;barrier2.png&quot;);
+    public static Image guard = Toolkit.getDefaultToolkit().getImage(
+            s +&quot;guard.png&quot;);
+
+    public static List&lt;GameObject&gt; gameObjectList = new ArrayList&lt;&gt;();
+    //我方子弹的集合
+    public static List&lt;Shell&gt; shellObjList = new ArrayList&lt;&gt;();
+    //敌机的集合
+    public static List&lt;Enemy&gt; enemyObjList = new ArrayList&lt;&gt;();
+    //要删除元素的集合
+    public static List&lt;GameObject&gt; removeList = new ArrayList&lt;&gt;();
+    //敌方子弹集合
+    public static List&lt;EnemyBullet&gt; enemyShellList = new ArrayList&lt;&gt;();
+    //
+    public static List&lt;Explode&gt; explodeList = new ArrayList&lt;&gt;();
+
+    public static void drawWord(Graphics gImage,String str,Color color,int size,int x,int y)&#123;
+        gImage.setColor(color);
+        gImage.setFont(new Font(&quot;黑体&quot;,Font.BOLD,size));
+        gImage.drawString(str,x,y);
+    &#125;
+
+    public  static void heartShow(Graphics gImage,int life,GameWin frame)&#123;
+        int height = 35,width = 20,cha = 2;
+        gImage.setColor(Color.white);
+        for (int i = 0; i &lt; 15; i++) &#123;
+            gImage.fillRect(width*i+5,750+cha*i,width,height-cha*i);
+        &#125;
+        int[][] rgb = &#123;&#123;17,255,0&#125;,&#123;33,238,0&#125;,&#123;49,221,0&#125;,&#123;65,204,0&#125;,
+                       &#123;80,187,0&#125;,&#123;96,170,0&#125;,&#123;112,153,0&#125;,&#123;128,136,0&#125;,
+                       &#123;144,119,0&#125;,&#123;160,102,0&#125;,&#123;176,85,0&#125;,&#123;192,68,0&#125;,
+                       &#123;207,51,0&#125;,&#123;223,34,0&#125;,&#123;255,0,0&#125;&#125;;
+        for (int i = 0; i &lt; 15; i++) &#123;
+            gImage.setColor(new Color(rgb[i][0],rgb[i][1],rgb[i][2]));
+            if(frame.planeObj.life&gt;=15*2-2*i)
+                gImage.fillRect(width*i+5,750+cha*i,width/2,height-cha*i);
+            if(frame.planeObj.life&gt;=15*2-2*i-1)
+                gImage.fillRect(width*i+5+width/2,750+cha*i,width/2,height-cha*i);
+        &#125;
+    &#125;
+&#125;
+</code></pre>
 <p>GameUtils类是一个工具类，用于存储游戏中需要使用的图片、游戏对象集合。在这个类中使用了Java AWT工具包中的Toolkit类，它允许我们加载并处理图像。在类中加载了游戏所需的所有图像，并将其存储为静态变量。</p>
 <p>drawWord方法用于绘制字符串，能根据需要设置字符串的颜色、字体、大小以及位置，用于在界面上显示文字。</p>
 <p>heartShow方法实现了显示我方飞机的生命值，在屏幕左下角以多个向右减小的矩形来表示生命值，矩形颜色由绿色到红色渐变。</p>
-<h2 id="十三、背景类"><a href="#十三、背景类" class="headerlink" title="十三、背景类"></a>十三、背景类</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.awt.*;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Background</span> <span class="keyword">extends</span> <span class="title class_">GameObject</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Background</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Background</span><span class="params">(Image img, <span class="type">int</span> x, <span class="type">int</span> y, <span class="type">int</span> width, <span class="type">int</span> height, <span class="type">double</span> speed, GameWin frame)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>(img, x, y, width, height, speed, frame);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Background</span><span class="params">(Image img, <span class="type">int</span> x, <span class="type">int</span> y, <span class="type">double</span> speed)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>(img, x, y, speed);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">paintSelf</span><span class="params">(Graphics gImage)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>.paintSelf(gImage);</span><br><span class="line">        y += speed;</span><br><span class="line">        <span class="keyword">if</span>(y &gt;= <span class="number">800</span>)&#123;</span><br><span class="line">            y = -<span class="number">1600</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="十三、背景类"><a href="#十三、背景类" class="headerlink" title="十三、背景类"></a>十三、背景类</h2><pre><code class="java">import java.awt.*;
+
+public class Background extends GameObject &#123;
+    public Background() &#123;
+        super();
+    &#125;
+
+    public Background(Image img, int x, int y, int width, int height, double speed, GameWin frame) &#123;
+        super(img, x, y, width, height, speed, frame);
+    &#125;
+
+    public Background(Image img, int x, int y, double speed) &#123;
+        super(img, x, y, speed);
+    &#125;
+
+    @Override
+    public void paintSelf(Graphics gImage) &#123;
+        super.paintSelf(gImage);
+        y += speed;
+        if(y &gt;= 800)&#123;
+            y = -1600;
+        &#125;
+    &#125;
+&#125;
+</code></pre>
 <p>这段代码定义了一个背景类，在paintSelf方法中实现了背景图片的循环移动。</p>
-<h2 id="十四、障碍类"><a href="#十四、障碍类" class="headerlink" title="十四、障碍类"></a>十四、障碍类</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.awt.*;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">barrier</span> <span class="keyword">extends</span> <span class="title class_">GameObject</span>&#123;</span><br><span class="line">    <span class="type">int</span> life;</span><br><span class="line">    <span class="type">int</span> lifeMax;</span><br><span class="line">    <span class="type">int</span> <span class="variable">state</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> <span class="variable">Y</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">barrier</span><span class="params">()</span> &#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">barrier</span><span class="params">(<span class="type">int</span> x,<span class="type">int</span> y,<span class="type">int</span> speed,<span class="type">int</span> life,<span class="type">int</span> width,<span class="type">int</span> height,GameWin frame)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.frame = frame;</span><br><span class="line">        <span class="built_in">this</span>.speed = speed;</span><br><span class="line">        <span class="built_in">this</span>.x = x;</span><br><span class="line">        <span class="built_in">this</span>.y = y;</span><br><span class="line">        <span class="built_in">this</span>.width = width;</span><br><span class="line">        <span class="built_in">this</span>.height = height;</span><br><span class="line">        <span class="built_in">this</span>.life = life;</span><br><span class="line">        <span class="built_in">this</span>.lifeMax = life;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">paintSelf</span><span class="params">(Graphics gImage)</span> &#123;</span><br><span class="line">        gImage.drawImage(GameUtils.barrier1,x,Y,<span class="number">50</span>,<span class="number">50</span>,frame);</span><br><span class="line">        gImage.drawImage(GameUtils.barrier2,x+<span class="number">150</span>,Y,<span class="number">50</span>,<span class="number">50</span>,frame);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(Y&lt;y &amp;&amp; life == lifeMax)</span><br><span class="line">            Y += speed;</span><br><span class="line">        <span class="keyword">if</span>(Y == y &amp;&amp; life == lifeMax)&#123;</span><br><span class="line">            gImage.setColor(Color.red);</span><br><span class="line">            gImage.fillRect(x+<span class="number">50</span>-<span class="number">5</span>,Y+<span class="number">20</span>,<span class="number">110</span>,<span class="number">10</span>);</span><br><span class="line">            state = <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(state == <span class="number">1</span>)&#123;</span><br><span class="line">            gImage.setColor(Color.red);</span><br><span class="line">            gImage.fillRect(x+<span class="number">50</span>-<span class="number">5</span>,Y+<span class="number">20</span>,<span class="number">110</span>,<span class="number">10</span>);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span>(Shell shellObj:GameUtils.shellObjList)&#123;</span><br><span class="line">                <span class="keyword">if</span>(shellObj.getRec().intersects(<span class="keyword">new</span> <span class="title class_">Rectangle</span>(x+<span class="number">20</span>,Y+<span class="number">20</span>,<span class="number">160</span>,<span class="number">10</span>)))&#123;</span><br><span class="line">                    <span class="keyword">if</span>(life &gt; <span class="number">0</span>)&#123;</span><br><span class="line">                        life--;</span><br><span class="line">                        shellObj.setX(-<span class="number">100</span>);</span><br><span class="line">                        shellObj.setY(<span class="number">100</span>);</span><br><span class="line">                        GameUtils.removeList.add(shellObj);</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">else</span> &#123;</span><br><span class="line">                        state = <span class="number">2</span>;</span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="type">int</span> <span class="variable">n</span> <span class="operator">=</span> <span class="number">60</span>/lifeMax;</span><br><span class="line">            gImage.setColor(Color.white);</span><br><span class="line">            gImage.fillRect(x+<span class="number">70</span>,y+<span class="number">40</span>,<span class="number">60</span>,<span class="number">5</span>);</span><br><span class="line">            gImage.setColor(Color.green);</span><br><span class="line">            gImage.fillRect(x+<span class="number">70</span>,y+<span class="number">40</span>,life*n,<span class="number">5</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(state == <span class="number">2</span>)&#123;</span><br><span class="line">            Y -= speed;</span><br><span class="line">            <span class="keyword">if</span>(Y&lt;-<span class="number">50</span>)&#123;</span><br><span class="line">                GameUtils.removeList.add(<span class="built_in">this</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> Rectangle <span class="title function_">getRec</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">super</span>.getRec();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="十四、障碍类"><a href="#十四、障碍类" class="headerlink" title="十四、障碍类"></a>十四、障碍类</h2><pre><code class="java">import java.awt.*;
+
+public class barrier extends GameObject&#123;
+    int life;
+    int lifeMax;
+    int state = 0;
+    int Y = 0;
+    public barrier() &#123;
+    &#125;
+
+    public barrier(int x,int y,int speed,int life,int width,int height,GameWin frame) &#123;
+        this.frame = frame;
+        this.speed = speed;
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.life = life;
+        this.lifeMax = life;
+    &#125;
+
+
+
+    @Override
+    public void paintSelf(Graphics gImage) &#123;
+        gImage.drawImage(GameUtils.barrier1,x,Y,50,50,frame);
+        gImage.drawImage(GameUtils.barrier2,x+150,Y,50,50,frame);
+
+        if(Y&lt;y &amp;&amp; life == lifeMax)
+            Y += speed;
+        if(Y == y &amp;&amp; life == lifeMax)&#123;
+            gImage.setColor(Color.red);
+            gImage.fillRect(x+50-5,Y+20,110,10);
+            state = 1;
+        &#125;
+        if(state == 1)&#123;
+            gImage.setColor(Color.red);
+            gImage.fillRect(x+50-5,Y+20,110,10);
+
+            for(Shell shellObj:GameUtils.shellObjList)&#123;
+                if(shellObj.getRec().intersects(new Rectangle(x+20,Y+20,160,10)))&#123;
+                    if(life &gt; 0)&#123;
+                        life--;
+                        shellObj.setX(-100);
+                        shellObj.setY(100);
+                        GameUtils.removeList.add(shellObj);
+                    &#125;
+                    else &#123;
+                        state = 2;
+                        break;
+                    &#125;
+                &#125;
+            &#125;
+            int n = 60/lifeMax;
+            gImage.setColor(Color.white);
+            gImage.fillRect(x+70,y+40,60,5);
+            gImage.setColor(Color.green);
+            gImage.fillRect(x+70,y+40,life*n,5);
+        &#125;
+        if(state == 2)&#123;
+            Y -= speed;
+            if(Y&lt;-50)&#123;
+                GameUtils.removeList.add(this);
+            &#125;
+        &#125;
+    &#125;
+
+    @Override
+    public Rectangle getRec() &#123;
+        return super.getRec();
+    &#125;
+&#125;m
+</code></pre>
 <p>barrier类实现了游戏中障碍的添加，通过两个有一定距离的小球向下移动，停止后释放激光障碍，阻拦玩家子弹，激光障碍有一定生命值，可以在打掉障碍所有生命值后摧毁障碍，两个小球原路返回。该类增加了游戏难度和趣味性。</p>
-<h2 id="十五、音乐类"><a href="#十五、音乐类" class="headerlink" title="十五、音乐类"></a>十五、音乐类</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> javax.sound.sampled.*;</span><br><span class="line"><span class="keyword">import</span> java.io.*;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Music</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> Clip clip;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Music</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="type">File</span> <span class="variable">file</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">File</span>(<span class="string">&quot;C:\\Users\\ASUS\\JavaWorkspace\\untitled\\AircraftBattle\\src\\Music\\BackgroundMusic.wav&quot;</span>);</span><br><span class="line">            <span class="type">AudioInputStream</span> <span class="variable">audioInputStream</span> <span class="operator">=</span> AudioSystem.getAudioInputStream(file);</span><br><span class="line">            clip = AudioSystem.getClip();</span><br><span class="line">            clip.open(audioInputStream);</span><br><span class="line">            clip.loop(Clip.LOOP_CONTINUOUSLY);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (UnsupportedAudioFileException | IOException | LineUnavailableException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">play</span><span class="params">()</span> &#123;</span><br><span class="line">        clip.start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="十五、音乐类"><a href="#十五、音乐类" class="headerlink" title="十五、音乐类"></a>十五、音乐类</h2><pre><code class="java">import javax.sound.sampled.*;
+import java.io.*;
+
+public class Music &#123;
+    private Clip clip;
+
+    public Music() &#123;
+        try &#123;
+            File file = new File(&quot;C:\\Users\\ASUS\\JavaWorkspace\\untitled\\AircraftBattle\\src\\Music\\BackgroundMusic.wav&quot;);
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(file);
+            clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+            clip.loop(Clip.LOOP_CONTINUOUSLY);
+        &#125; catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) &#123;
+            e.printStackTrace();
+        &#125;
+    &#125;
+
+    public void play() &#123;
+        clip.start();
+    &#125;
+&#125;
+</code></pre>
 <p>这段代码定义了Music类，其中包含一个Clip类型的私有变量clip。在类的构造函数中，它从指定文件路径中读取音频文件，并将其转换为AudioInputStream类型，然后使用AudioSystem.getClip()方法创建一个新的Clip对象。<br>最后，使用clip.open()方法打开音频流并使用clip.loop()方法将其设置为循环播放。<br>该类实现了循环播放背景音乐的功能。</p>
 <h2 id="十六、总结"><a href="#十六、总结" class="headerlink" title="十六、总结"></a>十六、总结</h2><p>在本文中，我们介绍了如何使用Java语言和AWT&#x2F;Swing库来创建一个简单的2D飞行射击游戏。我使用了许多基本的Java编程概念，并使用它们来构建游戏世界中的各种对象。</p>
 <p>在这个游戏中，实现了一个基本的游戏循环，在每帧中更新并绘制游戏中的所有对象。还实现了基本的碰撞检测来处理玩家飞机和敌人之间的冲突，以及玩家子弹和敌人之间的碰撞。</p>
-<p>游戏中还了解了如何使用Java的鼠标和键盘事件来捕获用户的输入，并使用这些事件来控制游戏中的对象。<br>游戏截图如下：<br><img src="/Untitled.assets/20b25727e27844b4bdaa9ac764f09a3f.png" alt="在这里插入图片描述"></p>
+<p>游戏中还了解了如何使用Java的鼠标和键盘事件来捕获用户的输入，并使用这些事件来控制游戏中的对象。<br>游戏截图如下：<br>![在这里插入图片描述](【使用Java Swing创建飞机大战小游戏】.assets&#x2F;20b25727e27844b4bdaa9ac764f09a3f.png)</p>
 <p>以上，我们完成了一个简单的2D飞行射击游戏，并使用它来练习Java编程和游戏开发的基础知识。这个项目不仅是一个有趣的挑战，还提供了许多有用的技术经验，可以应用到更复杂的游戏开发项目中。</p>
 
     </div>
