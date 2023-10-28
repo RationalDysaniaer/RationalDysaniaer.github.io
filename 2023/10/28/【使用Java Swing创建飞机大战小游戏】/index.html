@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>Hexo</title>
+    <title> | Hexo</title>
     <meta name="author" content="John Doe" />
     <meta name="description" content="" />
     <meta name="keywords" content="" />
@@ -36,7 +36,9 @@
 
 
 
-<script src="/js/lib/home.js"></script>
+
+
+
 
 <link rel="stylesheet" href="/css/main.css" />
 
@@ -146,32 +148,11 @@
 </transition>
 
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
-            <div id="home-head">
-    <div id="home-background" ref="homeBackground" data-images="/images/background.jpg"></div>
-    <div id="home-info" @click="homeClick">
-        <span class="loop"></span>
-        <span class="loop"></span>
-        <span class="loop"></span>
-        <span class="loop"></span>
-        <span class="info">
-            <div class="wrap">
-                <h1>Hexo</h1>
-                <h3></h3>
-                <h5></h5>
-            </div>
-        </span>
+            <div class="article">
+    <div>
+        <h1></h1>
     </div>
-</div>
-<div id="home-posts-wrap" true ref="homePostsWrap">
-    <div id="home-posts">
-        
-
-<div class="post">
-    <a href="/2023/10/28/%E3%80%90%E4%BD%BF%E7%94%A8Java%20Swing%E5%88%9B%E5%BB%BA%E9%A3%9E%E6%9C%BA%E5%A4%A7%E6%88%98%E5%B0%8F%E6%B8%B8%E6%88%8F%E3%80%91/">
-        <h2 class="post-title"></h2>
-    </a>
-    <div class="category-and-date">
-        
+    <div class="info">
         <span class="date">
             <span class="icon">
                 <i class="fa-solid fa-calendar fa-fw"></i>
@@ -181,10 +162,9 @@
         
         
     </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <p>飞机大战是一个经典的小游戏，下面将介绍何使用Java Swing和GUI来创建一个完整的飞机大战游戏。本文游戏的实现参考了尚学堂的飞机大战游戏并进行一些改进，添加更多功能。</p>
+    
+    <div class="content" v-pre>
+        <p>飞机大战是一个经典的小游戏，下面将介绍何使用Java Swing和GUI来创建一个完整的飞机大战游戏。本文游戏的实现参考了尚学堂的飞机大战游戏并进行一些改进，添加更多功能。</p>
 <p>源码下载：<a target="_blank" rel="noopener" href="https://download.csdn.net/download/qq_43000128/87631637">Java Swing实现飞机大战小游戏.zip</a><br>@[TOC]</p>
 <h2 id="一、简介"><a href="#一、简介" class="headerlink" title="一、简介"></a>一、简介</h2><p>飞机大战小游戏使用的技术包括使用面向对象编程思想创建游戏元素，如敌机、敌方Boos、敌方子弹、我方飞机、子弹、道具等，并通过监听器来实现游戏的交互，以及如何在游戏中处理碰撞、控制游戏流程，以及实现一些基本的游戏逻辑。</p>
 <p>本文将以代码为主，通过代码实现来详细阐述游戏的设计思路和实现过程。我们将会使用Java中的Swing库来实现GUI，并通过游戏元素之间的交互来控制游戏的进行，通过爆炸类的实现了解到如何实现简单的动画效果，如何在屏幕上绘制图像和文本等一些基本的Java游戏编程技巧。</p>
@@ -282,97 +262,13 @@
 <p>游戏中还了解了如何使用Java的鼠标和键盘事件来捕获用户的输入，并使用这些事件来控制游戏中的对象。<br>游戏截图如下：<br><img src="/Untitled.assets/20b25727e27844b4bdaa9ac764f09a3f.png" alt="在这里插入图片描述"></p>
 <p>以上，我们完成了一个简单的2D飞行射击游戏，并使用它来练习Java编程和游戏开发的基础知识。这个项目不仅是一个有趣的挑战，还提供了许多有用的技术经验，可以应用到更复杂的游戏开发项目中。</p>
 
-            
-        </div>
     </div>
-    <div class="post-tags">
-        
-        
-        
-    </div>
-    <a href="/2023/10/28/%E3%80%90%E4%BD%BF%E7%94%A8Java%20Swing%E5%88%9B%E5%BB%BA%E9%A3%9E%E6%9C%BA%E5%A4%A7%E6%88%98%E5%B0%8F%E6%B8%B8%E6%88%8F%E3%80%91/" class="go-post">阅读全文</a>
-</div>
-
-<div class="post">
-    <a href="/2023/10/27/hello-world/">
-        <h2 class="post-title">Hello World</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2023/10/27
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        
-        
-    </div>
-    <a href="/2023/10/27/hello-world/" class="go-post">阅读全文</a>
-</div>
-
-
-        <div class="page-current">
     
-    <span class="current">1</span>
     
     
     
     
-</div>
-
-    </div>
     
-    <div id="home-card">
-        <div id="card-style">
-    <div id="card-div">
-        <div class="avatar">
-            <img src="/images/avatar.jpg" alt="avatar" />
-        </div>
-        <div class="name">John Doe</div>
-        <div class="description">
-            <p>Description<br>…</p>
-
-        </div>
-        
-        
-        <div class="friend-links">
-            
-            <div class="friend-link">
-                <a target="_blank" rel="noopener" href="https://argvchs.github.io">Argvchs</a>
-            </div>
-            
-        </div>
-        
-    </div>
-</div>
-
-    </div>
     
 </div>
 
@@ -404,6 +300,12 @@
         
     </div>
     <script src="/js/main.js"></script>
+    
+    
+
+
+
+
     
 </body>
 </html>
