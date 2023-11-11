@@ -1,10 +1,29 @@
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
+
+<canvas id="fireworks" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 32767"></canvas>
+<script src="https://cdn.staticfile.org/animejs/3.2.1/anime.min.js"></script>
+<script src="/js/fireworks.js"></script>
+
+<!-- 爆炸红心效果 -->
+<canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 9999; pointer-events: none;" ></canvas> 
+<script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+<script type="text/javascript" src="/js/firework.js"></script>
+
+
+<canvas id="background" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: -1"></canvas>
+<script src="/js/background.js"></script>
+
+<div id="cursor"></div>
+<link rel="stylesheet" href="/css/cursor.min.css">
+<script src="/js/cursor.min.js"></script>
+
+
     <meta charset="utf-8" />
-    <title>Hexo</title>
-    <meta name="author" content="John Doe" />
+    <title>小木不饿</title>
+    <meta name="author" content="RationalDysaniaer" />
     <meta name="description" content="" />
     <meta name="keywords" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
@@ -55,7 +74,7 @@
         <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
     <nav id="desktop-menu">
         <a class="title" href="/">
-            <span>HEXO</span>
+            <span>小木不饿</span>
         </a>
         
         <a href="/">
@@ -87,7 +106,7 @@
     <nav id="mobile-menu">
         <div class="title" @click="showMenuItems = !showMenuItems">
             <i class="fa-solid fa-bars fa-fw"></i>
-            <span>&emsp;HEXO</span>
+            <span>&emsp;小木不饿</span>
         </div>
         <transition name="slide">
             <div class="items" v-show="showMenuItems">
@@ -155,7 +174,7 @@
         <span class="loop"></span>
         <span class="info">
             <div class="wrap">
-                <h1>Hexo</h1>
+                <h1>小木不饿</h1>
                 <h3></h3>
                 <h5></h5>
             </div>
@@ -167,8 +186,8 @@
         
 
 <div class="post">
-    <a href="/2023/10/28/%E3%80%90%E4%BD%BF%E7%94%A8Java%20Swing%E5%88%9B%E5%BB%BA%E9%A3%9E%E6%9C%BA%E5%A4%A7%E6%88%98%E5%B0%8F%E6%B8%B8%E6%88%8F%E3%80%91/">
-        <h2 class="post-title"></h2>
+    <a href="/2023/03/30/%E3%80%90%E4%BD%BF%E7%94%A8Java%20Swing%E5%88%9B%E5%BB%BA%E9%A3%9E%E6%9C%BA%E5%A4%A7%E6%88%98%E5%B0%8F%E6%B8%B8%E6%88%8F%E3%80%91/">
+        <h2 class="post-title">【使用Java Swing创建飞机大战小游戏】</h2>
     </a>
     <div class="category-and-date">
         
@@ -176,7 +195,7 @@
             <span class="icon">
                 <i class="fa-solid fa-calendar fa-fw"></i>
             </span>
-            2023/10/28
+            2023/3/30
         </span>
         
         
@@ -189,7 +208,7 @@
 <h2 id="一、简介"><a href="#一、简介" class="headerlink" title="一、简介"></a>一、简介</h2><p>飞机大战小游戏使用的技术包括使用面向对象编程思想创建游戏元素，如敌机、敌方Boos、敌方子弹、我方飞机、子弹、道具等，并通过监听器来实现游戏的交互，以及如何在游戏中处理碰撞、控制游戏流程，以及实现一些基本的游戏逻辑。</p>
 <p>本文将以代码为主，通过代码实现来详细阐述游戏的设计思路和实现过程。我们将会使用Java中的Swing库来实现GUI，并通过游戏元素之间的交互来控制游戏的进行，通过爆炸类的实现了解到如何实现简单的动画效果，如何在屏幕上绘制图像和文本等一些基本的Java游戏编程技巧。</p>
 <h2 id="二、思维导图类的关系图"><a href="#二、思维导图类的关系图" class="headerlink" title="二、思维导图类的关系图"></a>二、思维导图类的关系图</h2><p>下方图片是思维导图和本项目中各个类之间的关系图。游戏窗口类是程序的入口，GameObject类是游戏中所有实体类的父类，它包含了背景类、敌机类、我方飞机类、爆炸类、道具类类等多个子类。<br>思维导图：</p>
-<p>![在这里插入图片描述](【使用Java Swing创建飞机大战小游戏】.assets&#x2F;2e7a365d9ec4422ab544d364373041ca.png)</p>
+<p><img src="/2023/03/30/%E3%80%90%E4%BD%BF%E7%94%A8Java%20Swing%E5%88%9B%E5%BB%BA%E9%A3%9E%E6%9C%BA%E5%A4%A7%E6%88%98%E5%B0%8F%E6%B8%B8%E6%88%8F%E3%80%91/2e7a365d9ec4422ab544d364373041ca.png" alt="在这里插入图片描述"></p>
 <h2 id="三、游戏窗口类"><a href="#三、游戏窗口类" class="headerlink" title="三、游戏窗口类"></a>三、游戏窗口类</h2><pre><code class="java">import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -1240,7 +1259,7 @@ public class Music &#123;
 <p>这段代码定义了Music类，其中包含一个Clip类型的私有变量clip。在类的构造函数中，它从指定文件路径中读取音频文件，并将其转换为AudioInputStream类型，然后使用AudioSystem.getClip()方法创建一个新的Clip对象。<br>最后，使用clip.open()方法打开音频流并使用clip.loop()方法将其设置为循环播放。<br>该类实现了循环播放背景音乐的功能。</p>
 <h2 id="十六、总结"><a href="#十六、总结" class="headerlink" title="十六、总结"></a>十六、总结</h2><p>在本文中，我们介绍了如何使用Java语言和AWT&#x2F;Swing库来创建一个简单的2D飞行射击游戏。我使用了许多基本的Java编程概念，并使用它们来构建游戏世界中的各种对象。</p>
 <p>在这个游戏中，实现了一个基本的游戏循环，在每帧中更新并绘制游戏中的所有对象。还实现了基本的碰撞检测来处理玩家飞机和敌人之间的冲突，以及玩家子弹和敌人之间的碰撞。</p>
-<p>游戏中还了解了如何使用Java的鼠标和键盘事件来捕获用户的输入，并使用这些事件来控制游戏中的对象。<br>游戏截图如下：<br>![在这里插入图片描述](【使用Java Swing创建飞机大战小游戏】.assets&#x2F;20b25727e27844b4bdaa9ac764f09a3f.png)</p>
+<p>游戏中还了解了如何使用Java的鼠标和键盘事件来捕获用户的输入，并使用这些事件来控制游戏中的对象。<br>游戏截图如下：<br><img src="/2023/03/30/%E3%80%90%E4%BD%BF%E7%94%A8Java%20Swing%E5%88%9B%E5%BB%BA%E9%A3%9E%E6%9C%BA%E5%A4%A7%E6%88%98%E5%B0%8F%E6%B8%B8%E6%88%8F%E3%80%91/20b25727e27844b4bdaa9ac764f09a3f.png" alt="在这里插入图片描述"></p>
 <p>以上，我们完成了一个简单的2D飞行射击游戏，并使用它来练习Java编程和游戏开发的基础知识。这个项目不仅是一个有趣的挑战，还提供了许多有用的技术经验，可以应用到更复杂的游戏开发项目中。</p>
 
             
@@ -1251,50 +1270,7 @@ public class Music &#123;
         
         
     </div>
-    <a href="/2023/10/28/%E3%80%90%E4%BD%BF%E7%94%A8Java%20Swing%E5%88%9B%E5%BB%BA%E9%A3%9E%E6%9C%BA%E5%A4%A7%E6%88%98%E5%B0%8F%E6%B8%B8%E6%88%8F%E3%80%91/" class="go-post">阅读全文</a>
-</div>
-
-<div class="post">
-    <a href="/2023/10/27/hello-world/">
-        <h2 class="post-title">Hello World</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2023/10/27
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        
-        
-    </div>
-    <a href="/2023/10/27/hello-world/" class="go-post">阅读全文</a>
+    <a href="/2023/03/30/%E3%80%90%E4%BD%BF%E7%94%A8Java%20Swing%E5%88%9B%E5%BB%BA%E9%A3%9E%E6%9C%BA%E5%A4%A7%E6%88%98%E5%B0%8F%E6%B8%B8%E6%88%8F%E3%80%91/" class="go-post">阅读全文</a>
 </div>
 
 
@@ -1315,7 +1291,7 @@ public class Music &#123;
         <div class="avatar">
             <img src="/images/avatar.jpg" alt="avatar" />
         </div>
-        <div class="name">John Doe</div>
+        <div class="name">RationalDysaniaer</div>
         <div class="description">
             <p>Description<br>…</p>
 
@@ -1341,11 +1317,11 @@ public class Music &#123;
     <div id="footer-wrap">
         <div>
             &copy;
-            2022 - 2023 Hexo
+            2022 - 2023 小木不饿
             <span id="footer-icon">
                 <i class="fa-solid fa-font-awesome fa-fw"></i>
             </span>
-            &commat;John Doe
+            &commat;RationalDysaniaer
         </div>
         <div>
             Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
