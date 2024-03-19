@@ -128,7 +128,7 @@
   </url>
   
   <url>
-    <loc>https://rationaldysaniaer.github.io/box/nav/index.html</loc>
+    <loc>https://rationaldysaniaer.github.io/box/animation/index.html</loc>
     
     <lastmod>2023-03-22</lastmod>
     
@@ -146,24 +146,6 @@
   </url>
   
   <url>
-    <loc>https://rationaldysaniaer.github.io/box/animation/index.html</loc>
-    
-    <lastmod>2023-03-22</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://rationaldysaniaer.github.io/life/movies/index.html</loc>
-    
-    <lastmod>2023-03-22</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://rationaldysaniaer.github.io/life/games/index.html</loc>
     
     <lastmod>2023-03-22</lastmod>
@@ -173,7 +155,7 @@
   </url>
   
   <url>
-    <loc>https://rationaldysaniaer.github.io/personal/bb/index.html</loc>
+    <loc>https://rationaldysaniaer.github.io/box/nav/index.html</loc>
     
     <lastmod>2023-03-22</lastmod>
     
@@ -191,7 +173,7 @@
   </url>
   
   <url>
-    <loc>https://rationaldysaniaer.github.io/personal/love/index.html</loc>
+    <loc>https://rationaldysaniaer.github.io/life/movies/index.html</loc>
     
     <lastmod>2023-03-22</lastmod>
     
@@ -209,7 +191,7 @@
   </url>
   
   <url>
-    <loc>https://rationaldysaniaer.github.io/site/time/index.html</loc>
+    <loc>https://rationaldysaniaer.github.io/personal/love/index.html</loc>
     
     <lastmod>2023-03-22</lastmod>
     
@@ -218,7 +200,7 @@
   </url>
   
   <url>
-    <loc>https://rationaldysaniaer.github.io/site/census/index.html</loc>
+    <loc>https://rationaldysaniaer.github.io/personal/bb/index.html</loc>
     
     <lastmod>2023-03-22</lastmod>
     
@@ -237,6 +219,24 @@
   
   <url>
     <loc>https://rationaldysaniaer.github.io/social/fcircle/index.html</loc>
+    
+    <lastmod>2023-03-22</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://rationaldysaniaer.github.io/site/time/index.html</loc>
+    
+    <lastmod>2023-03-22</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://rationaldysaniaer.github.io/site/census/index.html</loc>
     
     <lastmod>2023-03-22</lastmod>
     
@@ -272,6 +272,13 @@
 
   
   <url>
+    <loc>https://rationaldysaniaer.github.io/tags/hexo%E5%8D%9A%E5%AE%A2/</loc>
+    <lastmod>2024-03-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://rationaldysaniaer.github.io/tags/Markdown/</loc>
     <lastmod>2024-03-19</lastmod>
     <changefreq>weekly</changefreq>
@@ -286,7 +293,7 @@
   </url>
   
   <url>
-    <loc>https://rationaldysaniaer.github.io/tags/hexo%E5%8D%9A%E5%AE%A2/</loc>
+    <loc>https://rationaldysaniaer.github.io/tags/CSS/</loc>
     <lastmod>2024-03-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -301,13 +308,6 @@
   
   <url>
     <loc>https://rationaldysaniaer.github.io/tags/JavaScript/</loc>
-    <lastmod>2024-03-19</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://rationaldysaniaer.github.io/tags/CSS/</loc>
     <lastmod>2024-03-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -337,13 +337,6 @@
 
   
   <url>
-    <loc>https://rationaldysaniaer.github.io/categories/%E6%BC%94%E7%A4%BA/</loc>
-    <lastmod>2024-03-19</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://rationaldysaniaer.github.io/categories/hexo%E5%8D%9A%E5%AE%A2/</loc>
     <lastmod>2024-03-19</lastmod>
     <changefreq>weekly</changefreq>
@@ -351,7 +344,7 @@
   </url>
   
   <url>
-    <loc>https://rationaldysaniaer.github.io/categories/%E5%90%8E%E7%AB%AF/</loc>
+    <loc>https://rationaldysaniaer.github.io/categories/%E6%BC%94%E7%A4%BA/</loc>
     <lastmod>2024-03-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -359,6 +352,13 @@
   
   <url>
     <loc>https://rationaldysaniaer.github.io/categories/%E5%89%8D%E7%AB%AF/</loc>
+    <lastmod>2024-03-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://rationaldysaniaer.github.io/categories/%E5%90%8E%E7%AB%AF/</loc>
     <lastmod>2024-03-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
