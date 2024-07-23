@@ -1119,7 +1119,7 @@ function createtime1() {
   var dnum = Math.floor(days);
 
   var ascll = [
-    `欢迎来到Fomalhaut🥝の小家!`,
+    `欢迎来到RationalDysaniaer🥝の小家!`,
     `Future is now 🍭🍭🍭`,
     `
         
@@ -1133,7 +1133,7 @@ function createtime1() {
     "小站已经苟活",
     dnum,
     "天啦!",
-    "©2022 By Fomalhaut",
+    "©2024 By RationalDysaniaer",
   ];
 
   setTimeout(
@@ -1172,7 +1172,7 @@ function createtime2() {
   setTimeout(
     console.warn.bind(
       console,
-      "%c ⚡ Powered by Fomalhaut🥝 %c 你正在访问Fomalhaut🥝の小家",
+      "%c ⚡ Powered by RationalDysaniaer🥝 %c 你正在访问RationalDysaniaer🥝の小家",
       "color:white; background-color:#f0ad4e",
       ""
     )
@@ -2986,7 +2986,7 @@ function setUniverse() {
 
 // 雪花开关
 if (localStorage.getItem("snow") == undefined) {
-  localStorage.setItem("snow", "none");
+  localStorage.setItem("snow", "block");
 }
 document.getElementById("snow").style.display = localStorage.getItem("snow");
 function setSnow() {
